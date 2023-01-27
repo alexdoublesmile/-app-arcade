@@ -2,11 +2,13 @@ package com.joyful.arcade;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import static java.lang.System.nanoTime;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 400;
     private static final int FPS = 30;
@@ -35,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
             thread = new Thread(this);
             thread.start();
         }
+        addKeyListener(this);
     }
 
     @Override
@@ -100,5 +103,20 @@ public class GamePanel extends JPanel implements Runnable {
         final Graphics g2 = getGraphics();
         g2.drawImage(image, 0, 0, null);
         g2.dispose();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
