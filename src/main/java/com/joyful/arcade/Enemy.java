@@ -34,6 +34,21 @@ public class Enemy {
                 r = 5;
                 health = 1;
             }
+            if (rank == 2) {
+                speed = 2;
+                r = 10;
+                health = 2;
+            }
+            if (rank == 3) {
+                speed = 1.5;
+                r = 20;
+                health = 3;
+            }
+            if (rank == 4) {
+                speed = 1.5;
+                r = 30;
+                health = 4;
+            }
         }
         // faster & stronger enemy
         if (type == 2) {
