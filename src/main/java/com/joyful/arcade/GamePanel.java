@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private long waveStartTimer;
     private long waveStartTimerDiff;
     private int waveNumber;
+    private int waveDelay = 2000;
     private boolean waveStart;
 
     public GamePanel() {
@@ -102,6 +103,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void gameUpdate() {
+        // new wave
+        if (waveStartTimer == 0 && enemies.size() == 0) {
+            waveNumber++;
+            waveStart = false;
+            waveStartTimer = nanoTime();
+        } else {
+            waveStartTimerDiff = (nanoTime() - waveStartTimer) / 1000_000;
+            if (waveStartTimerDiff > waveDelay) {
+                waveStart = true;
+                waveStartTimer = 0;
+                waveStartTimerDiff = 0;
+            }
+        }
+        
+
         // update player
         player.update();
 
