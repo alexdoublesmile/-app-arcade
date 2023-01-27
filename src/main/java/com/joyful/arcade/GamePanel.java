@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static java.lang.System.nanoTime;
+
 public class GamePanel extends JPanel implements Runnable {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
@@ -44,16 +46,36 @@ public class GamePanel extends JPanel implements Runnable {
         long startTime;
         long URDTimeMillis;
         long waitTime;
-        long totalTime;
+        long totalTime = 0;
 
-        int frameCount;
+        int frameCount = 0;
         int maxFrameCount = 30;
-        
+
+        long targetTime = 1000 / FPS;
+
         while(running) {
+
+            startTime = nanoTime();
 
             gameUpdate();
             gameRender();
             gameDraw();
+
+            URDTimeMillis = (nanoTime() - startTime) / 1000_000;
+            waitTime = targetTime - URDTimeMillis;
+
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            totalTime += nanoTime() - startTime;
+            frameCount++;
+            if (frameCount == maxFrameCount) {
+                averageFps = 1000.0 / ((totalTime / frameCount) / 1000_000);
+                frameCount = 0;
+                totalTime = 0;
+            }
         }
     }
 
@@ -65,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawString("test str", 100, 100);
+        g.drawString("FPS: " + averageFps, 100, 100);
     }
 
     private void gameDraw() {
