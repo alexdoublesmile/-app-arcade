@@ -47,4 +47,20 @@ public class Enemy {
         dead = false;
 
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
 }
