@@ -142,6 +142,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             enemies.get(i).update();
         }
 
+        // update power ups
+        for (int i = 0; i < powerUps.size(); i++) {
+            boolean remove = powerUps.get(i).update();
+            if (remove) {
+                powerUps.remove(i);
+                i--;
+            }
+        }
+
+
         // update enemy-bullet collisions
         for (int i = 0; i < bullets.size(); i++) {
             final Bullet bullet = bullets.get(i);
@@ -229,6 +239,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // render enemies
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).draw(g);
+        }
+
+        // render power ups
+        for (int i = 0; i < powerUps.size(); i++) {
+            powerUps.get(i).draw(g);
         }
 
         // render wave numbers
