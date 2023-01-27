@@ -44,17 +44,20 @@ public class PowerUp {
 
     public boolean update() {
         y += 2;
-
         if (y > GamePanel.HEIGHT + r) {
             return true;
         }
-
         return false;
-
     }
 
     public void draw(Graphics2D g) {
+        g.setColor(color1);
+        g.drawRect((int) (x - r), (int) (y - r), 2 * r, 2 * r);
 
+        g.setStroke(new BasicStroke(3));
+        g.setColor(color1.darker());
+        g.drawRect((int) (x - r), (int) (y - r), 2 * r, 2 * r);
 
+        g.setStroke(new BasicStroke(1));
     }
 }
