@@ -100,6 +100,16 @@ public class Enemy {
             }
             for (int i = 0; i < amount; i++) {
                 final Enemy enemy = new Enemy(type, rank - 1);
+                enemy.x = x;
+                enemy.y = y;
+                // ?
+                double angle = 0;
+                if (!ready) {
+                    angle = Math.random() * 140 + 20;
+                } else {
+                    angle = Math.random() * 360;
+                }
+                enemy.rad = Math.toRadians(angle);
                 GamePanel.enemies.add(enemy);
             }
         }
