@@ -81,6 +81,11 @@ public class Enemy {
                 ready = true;
             }
         }
+
+        if (x < r && dx < 0) dx = -dx;
+        if (y < r && dy < 0) dy = -dy;
+        if (x > GamePanel.WIDTH - r && dx > 0) dx = -dx;
+        if (y > GamePanel.HEIGHT - r && dy > 0) dy = -dy;
     }
 
     public void draw(Graphics2D g) {
