@@ -45,6 +45,12 @@ public class Player {
         recoveryTimer = 0;
     }
 
+    public void loseLife() {
+        lives--;
+        recovering = true;
+        recoveryTimer = nanoTime();
+    }
+
     public void update() {
         if (left) {
             dx = -speed;
@@ -86,6 +92,12 @@ public class Player {
                 GamePanel.bullets.add(new Bullet(-90, x, y));
                 firingTimer = nanoTime(); // timer reset for next bullet
             }
+        }
+
+        long elapsed = (nanoTime() - recoveryTimer) / 1000_000;
+        if (elapsed > 2000) {
+            recovering = false;
+            recoveryTimer = 0;
         }
     }
 
