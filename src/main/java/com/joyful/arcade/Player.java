@@ -101,7 +101,7 @@ public class Player {
                     GamePanel.bullets.add(new Bullet(270, x, y));
                 } else if (powerLevel < 4) {
                     GamePanel.bullets.add(new Bullet(270, x + 5, y));
-                    GamePanel.bullets.add(new Bullet(270, x + 5, y));
+                    GamePanel.bullets.add(new Bullet(270, x - 5, y));
                 } else {
                     GamePanel.bullets.add(new Bullet(270, x, y));
                     GamePanel.bullets.add(new Bullet(275, x + 5, y));
