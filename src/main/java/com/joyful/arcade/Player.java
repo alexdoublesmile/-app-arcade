@@ -50,6 +50,13 @@ public class Player {
             y = r;
         }
 
+        if (x > GamePanel.WIDTH - r) {
+            x = GamePanel.WIDTH - r;
+        }
+        if (y > GamePanel.HEIGHT - r) {
+            y = GamePanel.HEIGHT - r;
+        }
+
         dx = 0;
         dy = 0;
     }
