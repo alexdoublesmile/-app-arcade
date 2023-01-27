@@ -26,6 +26,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Enemy> enemies = new ArrayList<>();
 
+    private long waveStartTimer;
+    private long waveStartTimerDiff;
+    private int waveNumber;
+    private boolean waveStart;
+
     public GamePanel() {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -53,10 +58,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         player = new Player();
-        // test enemies creation
-        for (int i = 0; i < 5; i++) {
-            enemies.add(new Enemy(1, 1));
-        }
+        waveStart = true;
 
         // game loop
         long startTime;
