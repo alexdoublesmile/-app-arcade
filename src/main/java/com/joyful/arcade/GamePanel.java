@@ -92,23 +92,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
 
             // for render fps value
-            totalTime += nanoTime() - startTime;
-            frameCount++;
-            if (frameCount == maxFrameCount) {
-                averageFps = 1000.0 / (totalTime / frameCount / 1000_000);
-                frameCount = 0;
-                totalTime = 0;
-            }
+//            totalTime += nanoTime() - startTime;
+//            frameCount++;
+//            if (frameCount == maxFrameCount) {
+//                averageFps = 1000.0 / (totalTime / frameCount / 1000_000);
+//                frameCount = 0;
+//                totalTime = 0;
+//            }
         }
     }
 
     private void gameUpdate() {
         // new wave
+        // if wave not started & no enemies, start timer & don't start wave than (wave start = false)
         if (waveStartTimer == 0 && enemies.size() == 0) {
             waveNumber++;
             waveStart = false;
             waveStartTimer = nanoTime();
         } else {
+            // start new wave if last wave was started more than delay time ago (wave start = true)
             waveStartTimerDiff = (nanoTime() - waveStartTimer) / 1000_000;
             if (waveStartTimerDiff > waveDelay) {
                 waveStart = true;
@@ -117,7 +119,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        // create enemies
+        // create enemies if needs (wave start true & no enemies)
         if (waveStart && enemies.size() == 0) {
             createNewEnemies();
         }
@@ -176,13 +178,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void gameRender() {
+        // render background
         final Color backgroundColor = new Color(0, 100, 255);
         g.setColor(backgroundColor);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g.setColor(Color.BLACK);
-        g.drawString("FPS: " + averageFps, 10, 10);
-        g.drawString("Bullets counter: " + bullets.size(), 10, 20);
+        // render fps & bullets info
+//        g.setColor(Color.BLACK);
+//        g.drawString("FPS: " + averageFps, 10, 10);
+//        g.drawString("Bullets counter: " + bullets.size(), 10, 20);
 
         // render player
         player.draw(g);
@@ -201,12 +205,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (waveStartTimer != 0) {
             g.setFont(new Font("Century Gothic", Font.PLAIN, 18));
             final String s = "- W A V E  " + waveNumber + "  -";
+            // ?
             final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+            // ?
             int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
+            // ?
             if (alpha > 255) {
                 alpha = 255;
             }
+            // ?
             g.setColor(new Color(255, 255, 255, alpha));
+            // ?
             g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
         }
     }
