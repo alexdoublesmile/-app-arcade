@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 400;
     private static final int FPS = 30;
     private double averageFps;
 
