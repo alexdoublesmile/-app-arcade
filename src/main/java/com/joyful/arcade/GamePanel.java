@@ -213,6 +213,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     powerUps.add(new PowerUp(3, enemy.getX(), enemy.getY()));
                 } else if (random < 0.12) {
                     powerUps.add(new PowerUp(2, enemy.getX(), enemy.getY()));
+                } else {
+                    powerUps.add(new PowerUp(2, enemy.getX(), enemy.getY()));
                 }
 
                 player.addScore(enemy.getType() + enemy.getRank());
@@ -307,6 +309,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
             g.setStroke(new BasicStroke(1));
         }
+
+        // render player powers
+        g.setColor(Color.YELLOW);
+        g.fillRect(20, 40, player.getPower() * 8, 8);
+        g.setColor(Color.YELLOW.darker());
+
+        g.setStroke(new BasicStroke(2));
+        for (int i = 0; i < player.getRequiredPower(); i++) {
+            g.drawRect(20 + 8 * i, 40, 8, 8);
+        }
+        g.setStroke(new BasicStroke(1));
+
 
         // render player scores
         g.setColor(Color.WHITE);
