@@ -102,14 +102,25 @@ public class Player {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(color1);
-        g.fillOval(x - r, y - r, 2 * r, 2 * r);
+        if (recovering) {
+            g.setColor(color2);
+            g.fillOval(x - r, y - r, 2 * r, 2 * r);
 
-        g.setStroke(new BasicStroke(3));
-        g.setColor(color1.darker());
-        g.drawOval(x - r, y - r, 2 * r, 2 * r);
+            g.setStroke(new BasicStroke(3));
+            g.setColor(color2.darker());
+            g.drawOval(x - r, y - r, 2 * r, 2 * r);
 
-        g.setStroke(new BasicStroke(1));
+            g.setStroke(new BasicStroke(1));
+        } else {
+            g.setColor(color1);
+            g.fillOval(x - r, y - r, 2 * r, 2 * r);
+
+            g.setStroke(new BasicStroke(3));
+            g.setColor(color1.darker());
+            g.drawOval(x - r, y - r, 2 * r, 2 * r);
+
+            g.setStroke(new BasicStroke(1));
+        }
     }
 
     public void setLeft(boolean left) {
