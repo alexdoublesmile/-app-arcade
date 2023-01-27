@@ -218,6 +218,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // ?
             g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
         }
+
+        //  render player lives
+        for (int i = 0; i < player.getLives(); i++) {
+            g.setColor(Color.WHITE);
+            g.fillOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
+
+            g.setStroke(new BasicStroke(3));
+            g.setColor(Color.WHITE.darker());
+            g.drawOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
+
+            g.setStroke(new BasicStroke(1));
+        }
+
     }
 
     private void gameDraw() {

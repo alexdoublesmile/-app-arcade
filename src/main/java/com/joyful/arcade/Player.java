@@ -114,4 +114,20 @@ public class Player {
     public void setFiring(boolean firing) {
         this.firing = firing;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getLives() {
+        return lives;
+    }
 }
