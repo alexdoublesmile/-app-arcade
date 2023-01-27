@@ -116,7 +116,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 waveStartTimerDiff = 0;
             }
         }
-        
+
+        // create enemies
+        if (waveStart && enemies.size() == 0) {
+            createNewEnemies();
+        }
 
         // update player
         player.update();
@@ -198,6 +202,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         final Graphics g2 = this.getGraphics();
         g2.drawImage(image, 0, 0, null);
         g2.dispose();
+    }
+
+    private void createNewEnemies() {
+        enemies.clear();
+        if (waveNumber == 1) {
+            for (int i = 0; i < 4; i++) {
+                enemies.add(new Enemy(1, 1));
+            }
+        }
+        if (waveNumber == 2) {
+            for (int i = 0; i < 8; i++) {
+                enemies.add(new Enemy(1, 1));
+            }
+        }
     }
 
     @Override
