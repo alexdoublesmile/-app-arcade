@@ -143,6 +143,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (keyCode == VK_DOWN) {
             player.setDown(true);
         }
+        if (keyCode == VK_Z) {
+            player.setFiring(true);
+        }
     }
 
     @Override
