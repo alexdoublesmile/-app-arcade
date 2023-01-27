@@ -18,11 +18,13 @@ public class GamePanel extends JPanel implements Runnable {
     private BufferedImage image;
     private Graphics2D g;
 
+    private Player player;
 
     public GamePanel() {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
+        // for key listener to get keys
         requestFocus();
 
     }
@@ -43,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
 
+        player = new Player();
         long startTime;
         long URDTimeMillis;
         long waitTime;
@@ -52,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
         int maxFrameCount = 30;
 
         long targetTime = 1000 / FPS;
+
 
         while(running) {
 
@@ -80,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void gameUpdate() {
-
+        player.update();
     }
 
     private void gameRender() {
@@ -88,6 +92,8 @@ public class GamePanel extends JPanel implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.BLACK);
         g.drawString("FPS: " + averageFps, 100, 100);
+
+        player.draw(g);
     }
 
     private void gameDraw() {
