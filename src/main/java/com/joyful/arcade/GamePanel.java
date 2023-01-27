@@ -220,6 +220,38 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 i--;
             }
         }
+
+        // update player-power ups collision
+        int px = player.getX();
+        int py = player.getY();
+        int pr = player.getR();
+        for (int i = 0; i < powerUps.size(); i++) {
+            final PowerUp powerUp = powerUps.get(i);
+            final double ex = powerUp.getX();
+            final double ey = powerUp.getY();
+            final double er = powerUp.getR();
+
+            double dx = px - ex;
+            double dy = py - ey;
+            final double dist = Math.sqrt(dx * dx + dy * dy);
+
+            // collected power ups
+            if (dist < pr + er) {
+                powerUps.remove(i);
+
+                if (powerUp.getType() == 1) {
+                    player.gainLife();
+                }
+
+                if (powerUp.getType() == 2) {
+                    player.increasePower(1);
+                }
+
+                if (powerUp.getType() == 3) {
+                    player.increasePower(2);
+                }
+            }
+        }
     }
 
     private void gameRender() {

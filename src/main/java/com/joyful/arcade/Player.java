@@ -126,6 +126,10 @@ public class Player {
         }
     }
 
+    public void gainLife() {
+        lives++;
+    }
+
     public void addScore(int i) {
         score += i;
     }
