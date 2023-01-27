@@ -196,6 +196,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).draw(g);
         }
+
+        // render wave numbers
+        if (waveStartTimer != 0) {
+            g.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+            final String s = "- W A V E  " + waveNumber + "  -";
+            final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+            int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
+            if (alpha > 255) {
+                alpha = 255;
+            }
+            g.setColor(new Color(255, 255, 255, alpha));
+            g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
+        }
     }
 
     private void gameDraw() {
