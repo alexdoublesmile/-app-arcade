@@ -1,5 +1,7 @@
 package com.joyful.arcade;
 
+import java.awt.*;
+
 public class Player {
     private int x;
     private int y;
@@ -12,6 +14,8 @@ public class Player {
     private boolean right;
     private boolean up;
     private boolean down;
+    private Color color1;
+    private Color color2;
 
     public Player() {
         x = GamePanel.WIDTH / 2;
@@ -23,6 +27,9 @@ public class Player {
         speed = 5;
 
         lives = 3;
+
+        color1 = Color.WHITE;
+        color2 = Color.RED;
 
     }
 
@@ -61,7 +68,13 @@ public class Player {
         dy = 0;
     }
 
-    public void draw() {
+    public void draw(Graphics2D g) {
+        g.setColor(color1);
+        g.fillOval(x - r, y - r, 2 * r, 2 * r);
 
+        g.setStroke(new BasicStroke(3));
+        g.setColor(color1.darker());
+        g.drawOval(x - r, y - 2, 2 * r, 2 * r);
+        g.setStroke(new BasicStroke(1));
     }
 }
