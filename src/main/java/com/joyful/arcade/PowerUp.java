@@ -1,5 +1,7 @@
 package com.joyful.arcade;
 
+import java.awt.*;
+
 public class PowerUp {
     private double x;
     private double y;
@@ -26,5 +28,21 @@ public class PowerUp {
 
     public int getType() {
         return type;
+    }
+
+    public boolean update() {
+        y += 2;
+
+        if (y > GamePanel.HEIGHT + r) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public void draw(Graphics2D g) {
+
+
     }
 }
