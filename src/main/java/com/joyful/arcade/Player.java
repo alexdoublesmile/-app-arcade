@@ -21,6 +21,8 @@ public class Player {
     private long firingDelay;
     private Color color1;
     private Color color2;
+    private boolean recovering;
+    private long recoveryTimer;
 
     public Player() {
         x = GamePanel.WIDTH / 2;
@@ -38,6 +40,9 @@ public class Player {
 
         firingTimer = nanoTime();
         firingDelay = 200; // 5 shots per second
+
+        recovering = false;
+        recoveryTimer = nanoTime();
     }
 
     public void update() {
