@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static Player player;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
+    public static ArrayList<Enemy> enemies = new ArrayList<>();
 
     public GamePanel() {
         super();
@@ -100,6 +101,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 i--;
             }
         }
+
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update();
+        }
     }
 
     private void gameRender() {
@@ -115,6 +120,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(g);
+        }
+
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(g);
         }
     }
 
