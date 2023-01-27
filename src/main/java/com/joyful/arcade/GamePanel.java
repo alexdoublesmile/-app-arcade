@@ -8,6 +8,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int HEIGHT = 400;
 
     private Thread thread;
+    private boolean running;
 
     public GamePanel() {
         super();
@@ -28,5 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
 
+        running = true;
+
+        while(running) {
+            gameUpdate();
+            gameRender();
+            gameDraw();
+        }
     }
 }
