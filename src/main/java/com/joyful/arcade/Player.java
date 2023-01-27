@@ -24,6 +24,9 @@ public class Player {
     private boolean recovering;
     private long recoveryTimer;
     private int score;
+    private int powerLevel;
+    private int power;
+    private int[] requiredPower = {1, 2, 3, 4, 5};
 
     public Player() {
         x = GamePanel.WIDTH / 2;
@@ -130,6 +133,14 @@ public class Player {
         lives++;
     }
 
+    public void increasePower(int power) {
+        this.power += power;
+        if (this.power >= requiredPower[powerLevel]) {
+            this.power -= requiredPower[powerLevel];
+            powerLevel++;
+        }
+    }
+
     public void addScore(int i) {
         score += i;
     }
@@ -180,5 +191,17 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public int getPowerLevel() {
+        return powerLevel;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getRequiredPower() {
+        return requiredPower[powerLevel];
     }
 }
