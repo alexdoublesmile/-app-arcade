@@ -70,4 +70,20 @@ public class Enemy {
     public boolean isDead() {
         return dead;
     }
+
+    public void update() {
+        x += dx;
+        y += dy;
+
+        if (!ready) {
+            if (x > r && x < GamePanel.WIDTH - r
+                    && y > r && y < GamePanel.HEIGHT - r) {
+                ready = true;
+            }
+        }
+    }
+
+    public void draw(Graphics2D g) {
+
+    }
 }
