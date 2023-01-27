@@ -7,11 +7,23 @@ public class PowerUp {
     private double y;
     private int r;
     private  int type;
+    private Color color1;
+
+    // 1 -- +1 life
+    // 2 -- +1 power
+    // 3 -- +1 power
 
     public PowerUp(int type, double x, double y) {
         this.type = type;
         this.x = x;
         this.y = y;
+
+        if (type == 1) {
+            color1 = Color.PINK;
+        }
+        if (type == 2 || type == 3) {
+            color1 = Color.YELLOW;
+        }
     }
 
     public double getX() {
