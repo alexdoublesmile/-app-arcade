@@ -23,6 +23,7 @@ public class Player {
     private Color color2;
     private boolean recovering;
     private long recoveryTimer;
+    private int score;
 
     public Player() {
         x = GamePanel.WIDTH / 2;
@@ -43,6 +44,8 @@ public class Player {
 
         recovering = false;
         recoveryTimer = 0;
+
+        score = 0;
     }
 
     public void loseLife() {
@@ -122,6 +125,10 @@ public class Player {
             g.setStroke(new BasicStroke(1));
         }
     }
+    
+    public void addScore(int i) {
+        score += i;
+    }
 
     public void setLeft(boolean left) {
         this.left = left;
@@ -165,5 +172,9 @@ public class Player {
 
     public long getRecoveryTimer() {
         return recoveryTimer;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
