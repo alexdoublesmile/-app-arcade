@@ -141,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             enemies.get(i).update();
         }
 
-        // update enemies collisions
+        // update enemy-bullet collisions
         for (int i = 0; i < bullets.size(); i++) {
             final Bullet bullet = bullets.get(i);
             final double bx = bullet.getX();
@@ -168,8 +168,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        // update player collision
+        // update player-enemy collision
+        if (!player.isRecovering()) {
+            int px = player.getX();
+            int py = player.getY();
+            int pr = player.getR();
+            for (int i = 0; i < enemies.size(); i++) {
+                final Enemy enemy = enemies.get(i);
+                final double ex = enemy.getX();
+                final double ey = enemy.getY();
+                final double er = enemy.getR();
 
+                double dx = px - ex;
+                double dy = py - ey;
+                final double dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < pr + er) {
+                    player.loseLife();
+                }
+            }
+        }
 
         // update enemies dead
         for (int i = 0; i < enemies.size(); i++) {
