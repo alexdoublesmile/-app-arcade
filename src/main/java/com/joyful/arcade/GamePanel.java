@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private BufferedImage image;
     private Graphics2D g;
 
-    private Player player;
+    public static Player player;
 
     public GamePanel() {
         super();
