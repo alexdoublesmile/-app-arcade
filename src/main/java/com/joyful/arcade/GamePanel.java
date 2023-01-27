@@ -115,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             enemies.get(i).update();
         }
 
+        // update enemies collisions
         for (int i = 0; i < bullets.size(); i++) {
             final Bullet bullet = bullets.get(i);
             final double bx = bullet.getX();
@@ -138,6 +139,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     i--;
                     break;
                 }
+            }
+        }
+
+        // update enemies dead
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).isDead()) {
+                enemies.remove(i);
+                i--;
             }
         }
     }
