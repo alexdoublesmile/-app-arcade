@@ -191,7 +191,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // update enemies dead
         for (int i = 0; i < enemies.size(); i++) {
-            if (enemies.get(i).isDead()) {
+            final Enemy enemy = enemies.get(i);
+            if (enemy.isDead()) {
+                player.addScore(enemy.getType() + enemy.getRank());
                 enemies.remove(i);
                 i--;
             }

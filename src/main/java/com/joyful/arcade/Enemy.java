@@ -100,4 +100,12 @@ public class Enemy {
 
         g.setStroke(new BasicStroke(1));
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getRank() {
+        return rank;
+    }
 }
