@@ -8,6 +8,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
     private static final int FPS = 30;
+    private double averageFps;
 
     private Thread thread;
     private boolean running;
@@ -40,6 +41,14 @@ public class GamePanel extends JPanel implements Runnable {
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
 
+        long startTime;
+        long URDTimeMillis;
+        long waitTime;
+        long totalTime;
+
+        int frameCount;
+        int maxFrameCount = 30;
+        
         while(running) {
 
             gameUpdate();
