@@ -319,6 +319,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < player.getRequiredPower(); i++) {
             g.drawRect(20 + 8 * i, 40, 8, 8);
         }
+
         g.setStroke(new BasicStroke(1));
 
 
