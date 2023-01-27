@@ -252,6 +252,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             g.setStroke(new BasicStroke(1));
         }
 
+        // render player scores
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        g.drawString("Score: " + player.getScore(), WIDTH - 100, 10);
     }
 
     private void gameDraw() {

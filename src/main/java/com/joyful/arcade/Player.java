@@ -125,7 +125,7 @@ public class Player {
             g.setStroke(new BasicStroke(1));
         }
     }
-    
+
     public void addScore(int i) {
         score += i;
     }
