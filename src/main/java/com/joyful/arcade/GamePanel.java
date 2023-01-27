@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
-        
+
         while(running) {
 
             gameUpdate();
@@ -51,7 +51,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void gameRender() {
-
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawString("test str", 100, 100);
     }
 
     private void gameDraw() {
