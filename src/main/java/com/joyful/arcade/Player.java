@@ -25,4 +25,36 @@ public class Player {
         lives = 3;
 
     }
+
+    public void update() {
+        if (left) {
+            dx = -speed;
+        }
+        if (right) {
+            dx = speed;
+        }
+        if (up) {
+            dy = -speed;
+        }
+        if (down) {
+            dy = speed;
+        }
+
+        x += dx;
+        y += dy;
+
+        if (x < r) {
+            x = r;
+        }
+        if (y < r) {
+            y = r;
+        }
+
+        dx = 0;
+        dy = 0;
+    }
+
+    public void draw() {
+
+    }
 }
