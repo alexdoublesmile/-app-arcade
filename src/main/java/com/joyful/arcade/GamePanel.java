@@ -2,6 +2,7 @@ package com.joyful.arcade;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable {
     private static final int WIDTH = 400;
@@ -9,6 +10,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Thread thread;
     private boolean running;
+
+    private BufferedImage image;
+    private Graphics2D g;
 
     public GamePanel() {
         super();
@@ -31,6 +35,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         running = true;
 
+        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        g = (Graphics2D) image.getGraphics();
+        
         while(running) {
 
             gameUpdate();
