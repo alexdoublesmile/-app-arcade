@@ -51,6 +51,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g = (Graphics2D) image.getGraphics();
 
         player = new Player();
+        for (int i = 0; i < 5; i++) {
+            enemies.add(new Enemy(1, 1));
+        }
 
         long startTime;
         long URDTimeMillis;
