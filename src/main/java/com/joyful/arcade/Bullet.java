@@ -17,9 +17,9 @@ public class Bullet {
         this.y = y;
         r = 2;
         rad = Math.toRadians(angle);
-        dx = Math.cos(rad);
-        dy = Math.sin(rad);
         speed = 15;
+        dx = Math.cos(rad) * speed;
+        dy = Math.sin(rad) * speed;
 
         color1 = Color.YELLOW;
     }
