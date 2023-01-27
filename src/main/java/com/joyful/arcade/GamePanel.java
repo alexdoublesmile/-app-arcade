@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import static java.awt.event.KeyEvent.*;
 import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
@@ -112,7 +113,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        final int keyCode = e.getKeyCode();
+        if (keyCode == VK_LEFT) {
+            player.setLeft(true);
+        }
+        if (keyCode == VK_RIGHT) {
+            player.setRight(true);
+        }
+        if (keyCode == VK_UP) {
+            player.setUp(true);
+        }
+        if (keyCode == VK_DOWN) {
+            player.setDown(true);
+        }
     }
 
     @Override

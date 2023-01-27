@@ -77,4 +77,20 @@ public class Player {
         g.drawOval(x - r, y - 2, 2 * r, 2 * r);
         g.setStroke(new BasicStroke(1));
     }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
 }
