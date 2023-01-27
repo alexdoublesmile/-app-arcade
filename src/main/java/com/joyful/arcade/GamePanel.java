@@ -32,9 +32,21 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
 
         while(running) {
+
             gameUpdate();
             gameRender();
             gameDraw();
         }
+    }
+
+    private void gameUpdate() {
+
+    }
+
+    private void gameRender() {
+
+    }
+
+    private void gameDraw() {
     }
 }
