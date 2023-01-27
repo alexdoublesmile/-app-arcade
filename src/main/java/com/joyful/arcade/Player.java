@@ -36,6 +36,9 @@ public class Player {
         color1 = Color.WHITE;
         color2 = Color.RED;
 
+        firingTimer = nanoTime();
+        firingDelay = 200; // 5 shots per second
+
     }
 
     public void update() {

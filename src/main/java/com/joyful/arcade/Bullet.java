@@ -21,7 +21,7 @@ public class Bullet {
         dy = Math.sin(rad);
         speed = 15;
 
-        color1 = Color.YELLOW
+        color1 = Color.YELLOW;
     }
 
     public boolean update() {
