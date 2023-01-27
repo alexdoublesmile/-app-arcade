@@ -26,10 +26,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public GamePanel() {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setFocusable(true);
-        // for key listener to get keys
-        requestFocus();
 
+        setFocusable(true);
+        requestFocus(); // for key listener to get keys
     }
 
     public void addNotify() {
@@ -43,13 +42,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void run() {
-
         running = true;
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
 
         player = new Player();
+
         long startTime;
         long URDTimeMillis;
         long waitTime;
@@ -59,7 +58,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         int maxFrameCount = 30;
 
         long targetTime = 1000 / FPS;
-
 
         while(running) {
 
@@ -80,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             totalTime += nanoTime() - startTime;
             frameCount++;
             if (frameCount == maxFrameCount) {
-                averageFps = 1000.0 / ((totalTime / frameCount) / 1000_000);
+                averageFps = 1000.0 / (totalTime / frameCount / 1000_000);
                 frameCount = 0;
                 totalTime = 0;
             }
@@ -92,8 +90,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void gameRender() {
-        g.setColor(new Color(0, 100, 255));
+        final Color backgroundColor = new Color(0, 100, 255);
+        g.setColor(backgroundColor);
         g.fillRect(0, 0, WIDTH, HEIGHT);
+
         g.setColor(Color.BLACK);
         g.drawString("FPS: " + averageFps, 100, 100);
 
