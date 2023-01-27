@@ -42,7 +42,7 @@ public class Player {
         firingDelay = 200; // 5 shots per second
 
         recovering = false;
-        recoveryTimer = nanoTime();
+        recoveryTimer = 0;
     }
 
     public void update() {
@@ -134,5 +134,13 @@ public class Player {
 
     public int getLives() {
         return lives;
+    }
+
+    public boolean isRecovering() {
+        return recovering;
+    }
+
+    public long getRecoveryTimer() {
+        return recoveryTimer;
     }
 }
