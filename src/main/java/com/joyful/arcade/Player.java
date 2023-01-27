@@ -91,12 +91,22 @@ public class Player {
         dx = 0;
         dy = 0;
 
+        // firing
         // spams by bullets all time (if firing & more time passed than delay)
         if (firing) {
             final long elapsed = (nanoTime() - firingTimer) / 1000_000;
             if (elapsed > firingDelay) {
-                GamePanel.bullets.add(new Bullet(-90, x, y));
                 firingTimer = nanoTime(); // timer reset for next bullet
+                if (powerLevel < 2) {
+                    GamePanel.bullets.add(new Bullet(270, x, y));
+                } else if (powerLevel < 4) {
+                    GamePanel.bullets.add(new Bullet(270, x + 5, y));
+                    GamePanel.bullets.add(new Bullet(270, x + 5, y));
+                } else {
+                    GamePanel.bullets.add(new Bullet(270, x, y));
+                    GamePanel.bullets.add(new Bullet(275, x + 5, y));
+                    GamePanel.bullets.add(new Bullet(265, x - 5, y));
+                }
             }
         }
 
