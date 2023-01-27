@@ -92,6 +92,19 @@ public class Enemy {
         }
     }
 
+    public void explode() {
+        if (rank > 1) {
+            int amount = 0;
+            if (type == 1) {
+                amount = 3;
+            }
+            for (int i = 0; i < amount; i++) {
+                final Enemy enemy = new Enemy(type, rank - 1);
+                GamePanel.enemies.add(enemy);
+            }
+        }
+    }
+
     public double getX() {
         return x;
     }

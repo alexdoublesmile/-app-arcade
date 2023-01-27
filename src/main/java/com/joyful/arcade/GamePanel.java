@@ -220,6 +220,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 player.addScore(enemy.getType() + enemy.getRank());
                 enemies.remove(i);
                 i--;
+
+                enemy.explode();
             }
         }
 
