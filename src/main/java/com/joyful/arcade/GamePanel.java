@@ -70,11 +70,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             URDTimeMillis = (nanoTime() - startTime) / 1000_000;
             waitTime = targetTime - URDTimeMillis;
 
-            try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (waitTime > 0) {
+                try {
+                    Thread.sleep(waitTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
             totalTime += nanoTime() - startTime;
             frameCount++;
             if (frameCount == maxFrameCount) {
