@@ -38,7 +38,6 @@ public class Player {
 
         firingTimer = nanoTime();
         firingDelay = 200; // 5 shots per second
-
     }
 
     public void update() {
@@ -75,11 +74,12 @@ public class Player {
         dx = 0;
         dy = 0;
 
+        // spams by bullets all time (if firing & more time passed than delay)
         if (firing) {
             final long elapsed = (nanoTime() - firingTimer) / 1000_000;
             if (elapsed > firingDelay) {
-                GamePanel.bullets.add(new Bullet(270, x, y));
-                firingTimer = nanoTime();
+                GamePanel.bullets.add(new Bullet(-90, x, y));
+                firingTimer = nanoTime(); // timer reset for next bullet
             }
         }
     }

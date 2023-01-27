@@ -34,9 +34,11 @@ public class Enemy {
                 health = 1;
             }
         }
+        // y is null & x is random in left screen half + quater (so left & right quarters are empty)
         x = Math.random() * GamePanel.WIDTH / 2 + GamePanel.WIDTH / 4;
         y = -r;
 
+        // 20-160 degrees (so they all move to down by different angles)
         double angle = Math.random() * 140 + 20;
         rad = Math.toRadians(angle);
 

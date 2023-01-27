@@ -16,8 +16,10 @@ public class Bullet {
         this.x = x;
         this.y = y;
         r = 2;
-        rad = Math.toRadians(angle);
+        rad = Math.toRadians(angle); // for Math functions
         speed = 15;
+
+        // angled_distance(casetus) = cos(angle) * default_distance(hypo)
         dx = Math.cos(rad) * speed;
         dy = Math.sin(rad) * speed;
 

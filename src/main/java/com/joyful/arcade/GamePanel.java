@@ -51,10 +51,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g = (Graphics2D) image.getGraphics();
 
         player = new Player();
+        // test enemies creation
         for (int i = 0; i < 5; i++) {
             enemies.add(new Enemy(1, 1));
         }
 
+        // game loop
         long startTime;
         long URDTimeMillis;
         long waitTime;
@@ -66,7 +68,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long targetTime = 1000 / FPS;
 
         while(running) {
-
             startTime = nanoTime();
 
             gameUpdate();
@@ -76,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             URDTimeMillis = (nanoTime() - startTime) / 1000_000;
             waitTime = targetTime - URDTimeMillis;
 
+            // wait for 30 frames(game iterations) per second
             if (waitTime > 0) {
                 try {
                     Thread.sleep(waitTime);
@@ -84,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
 
+            // for render fps value
             totalTime += nanoTime() - startTime;
             frameCount++;
             if (frameCount == maxFrameCount) {
@@ -95,8 +98,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void gameUpdate() {
+        // update player
         player.update();
 
+        // update bullets
         for (int i = 0; i < bullets.size(); i++) {
             boolean remove = bullets.get(i).update();
             if (remove) {
@@ -105,6 +110,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
+        // update enemies
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update();
         }
@@ -119,12 +125,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.drawString("FPS: " + averageFps, 10, 10);
         g.drawString("Bullets counter: " + bullets.size(), 10, 20);
 
+        // render player
         player.draw(g);
 
+        // render bullets
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(g);
         }
 
+        // render enemies
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).draw(g);
         }
