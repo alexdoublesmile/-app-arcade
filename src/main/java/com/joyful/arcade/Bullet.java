@@ -20,7 +20,23 @@ public class Bullet {
         dx = Math.cos(rad);
         dy = Math.sin(rad);
         speed = 15;
-        
+
         color1 = Color.YELLOW
+    }
+
+    public boolean update() {
+        x += dx;
+        y += dy;
+
+        if (x < -r || x > GamePanel.WIDTH + r
+            || y < -r || y > GamePanel.HEIGHT + r) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void draw(Graphics2D g) {
+
     }
 }
