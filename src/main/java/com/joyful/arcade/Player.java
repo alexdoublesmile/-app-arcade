@@ -2,6 +2,8 @@ package com.joyful.arcade;
 
 import java.awt.*;
 
+import static java.lang.System.nanoTime;
+
 public class Player {
     private int x;
     private int y;
@@ -14,6 +16,9 @@ public class Player {
     private boolean right;
     private boolean up;
     private boolean down;
+    private boolean firing;
+    private long firingTimer;
+    private long firingDelay;
     private Color color1;
     private Color color2;
 
@@ -66,6 +71,14 @@ public class Player {
 
         dx = 0;
         dy = 0;
+
+        if (firing) {
+            final long elapsed = (nanoTime() - firingTimer) / 1000_000;
+            if (elapsed > firingDelay) {
+                GamePanel.bullets.add(new Bullet(270, x, y));
+                firingTimer = nanoTime();
+            }
+        }
     }
 
     public void draw(Graphics2D g) {
@@ -93,5 +106,9 @@ public class Player {
 
     public void setDown(boolean down) {
         this.down = down;
+    }
+
+    public void setFiring(boolean firing) {
+        this.firing = firing;
     }
 }
