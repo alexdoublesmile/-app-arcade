@@ -26,6 +26,7 @@ public class Enemy {
         this.type = type;
         this.rank = rank;
 
+        // default enemy
         if (type == 1) {
             color1 = Color.BLUE;
             if (rank == 1) {
@@ -34,6 +35,25 @@ public class Enemy {
                 health = 1;
             }
         }
+        // faster & stronger enemy
+        if (type == 2) {
+            color1 = Color.RED;
+            if (rank == 1) {
+                speed = 3;
+                r = 5;
+                health = 2;
+            }
+        }
+        // slow but extra hard enemy
+        if (type == 3) {
+            color1 = Color.GREEN;
+            if (rank == 1) {
+                speed = 1.5;
+                r = 5;
+                health = 5;
+            }
+        }
+
         // y is null & x is random in left screen half + quater (so left & right quarters are empty)
         x = Math.random() * GamePanel.WIDTH / 2 + GamePanel.WIDTH / 4;
         y = -r;
