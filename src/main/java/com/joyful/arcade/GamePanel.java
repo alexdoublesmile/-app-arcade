@@ -7,12 +7,14 @@ import java.awt.image.BufferedImage;
 public class GamePanel extends JPanel implements Runnable {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
+    private static final int FPS = 30;
 
     private Thread thread;
     private boolean running;
 
     private BufferedImage image;
     private Graphics2D g;
+
 
     public GamePanel() {
         super();
