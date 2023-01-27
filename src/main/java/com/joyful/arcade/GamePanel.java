@@ -114,6 +114,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update();
         }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            final Bullet bullet = bullets.get(i);
+            final double bx = bullet.getX();
+            final double by = bullet.getY();
+            final double br = bullet.getR();
+
+            for (int j = 0; j < enemies.size(); j++) {
+                final Enemy enemy = enemies.get(i);
+                final double ex = enemy.getX();
+                final double ey = enemy.getY();
+                final double er = enemy.getR();
+
+                final double dx = bx - ex;
+                final double dy = by - ey;
+                // ?
+                final double dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < br + er) {
+                    enemy.hit();
+                    bullets.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
     }
 
     private void gameRender() {
