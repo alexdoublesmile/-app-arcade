@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.*;
 import static java.lang.System.nanoTime;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Graphics2D g;
 
     public static Player player;
+    public static ArrayList<Bullet> bullets = new ArrayList<>();
 
     public GamePanel() {
         super();
@@ -90,6 +92,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void gameUpdate() {
         player.update();
+
+        for (int i = 0; i < bullets.size(); i++) {
+            boolean remove = bullets.get(i).update();
+            if (remove) {
+                bullets.remove(i);
+                i--;
+            }
+        }
     }
 
     private void gameRender() {
@@ -101,6 +111,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.drawString("FPS: " + averageFps, 100, 100);
 
         player.draw(g);
+
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(g);
+        }
     }
 
     private void gameDraw() {
