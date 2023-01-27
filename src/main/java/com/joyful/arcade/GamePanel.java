@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static Player player;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Enemy> enemies = new ArrayList<>();
+    public static ArrayList<PowerUp> powerUps = new ArrayList<>();
 
     private long waveStartTimer;
     private long waveStartTimerDiff;
@@ -193,6 +194,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemies.size(); i++) {
             final Enemy enemy = enemies.get(i);
             if (enemy.isDead()) {
+
+                // chance for poweruo
+                final double random = Math.random();
+                if (random < 0.001) {
+                    powerUps.add(new PowerUp(1, enemy.getX(), enemy.getY()));
+                } else if (random < 0.02) {
+                    powerUps.add(new PowerUp(3, enemy.getX(), enemy.getY()));
+                } else if (random < 0.12) {
+                    powerUps.add(new PowerUp(2, enemy.getX(), enemy.getY()));
+                }
+
                 player.addScore(enemy.getType() + enemy.getRank());
                 enemies.remove(i);
                 i--;
