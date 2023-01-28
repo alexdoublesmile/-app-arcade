@@ -272,6 +272,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
                 if (powerUp.getType() == 4) {
                     slowDownTimer = nanoTime();
+                    for (int j = 0; j < enemies.size(); j++) {
+                        enemies.get(j).setSlow(true);
+                    }
                 }
 
                 powerUps.remove(i);
@@ -284,6 +287,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             slowDownTimerDiff = (nanoTime() - slowDownTimer) / 1000_000;
             if (slowDownTimerDiff > slowDownLength) {
                 slowDownTimer = 0;
+                for (int j = 0; j < enemies.size(); j++) {
+                    enemies.get(j).setSlow(false);
+                }
             }
         }
     }
