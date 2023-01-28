@@ -34,6 +34,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int waveDelay = 2000;
     private boolean waveStart;
 
+    private long slowDownTimer;
+    private long slowDownTimerDiff;
+    private int slowDownLength = 6000;
+
     public GamePanel() {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -223,6 +227,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     powerUps.add(new PowerUp(3, enemy.getX(), enemy.getY()));
                 } else if (random < 0.12) {
                     powerUps.add(new PowerUp(2, enemy.getX(), enemy.getY()));
+                } else if (random < 0.13) {
+                    powerUps.add(new PowerUp(4, enemy.getX(), enemy.getY()));
+                }
+                // for test
+                else  {
+                    powerUps.add(new PowerUp(4, enemy.getX(), enemy.getY()));
                 }
 
                 player.addScore(enemy.getType() + enemy.getRank());
@@ -262,6 +272,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
                 if (powerUp.getType() == 3) {
                     player.increasePower(2);
+                }
+                if (powerUp.getType() == 4) {
+                    // TODO: 28.01.2023
                 }
             }
         }
