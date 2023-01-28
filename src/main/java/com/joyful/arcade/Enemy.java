@@ -63,6 +63,21 @@ public class Enemy {
                 r = 5;
                 health = 2;
             }
+            if (rank == 2) {
+                speed = 3;
+                r = 10;
+                health = 3;
+            }
+            if (rank == 3) {
+                speed = 2.5;
+                r = 20;
+                health = 3;
+            }
+            if (rank == 4) {
+                speed = 2.5;
+                r = 30;
+                health = 4;
+            }
         }
         // slow but extra hard enemy
         if (type == 3) {
@@ -71,6 +86,21 @@ public class Enemy {
                 speed = 1.5;
                 r = 5;
                 health = 5;
+            }
+            if (rank == 2) {
+                speed = 1.5;
+                r = 10;
+                health = 6;
+            }
+            if (rank == 3) {
+                speed = 1.5;
+                r = 25;
+                health = 7;
+            }
+            if (rank == 4) {
+                speed = 1.5;
+                r = 45;
+                health = 8;
             }
         }
 
