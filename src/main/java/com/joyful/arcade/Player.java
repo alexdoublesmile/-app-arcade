@@ -110,10 +110,12 @@ public class Player {
             }
         }
 
-        long elapsed = (nanoTime() - recoveryTimer) / 1000_000;
-        if (elapsed > 2000) {
-            recovering = false;
-            recoveryTimer = 0;
+        if (recovering) {
+            long elapsed = (nanoTime() - recoveryTimer) / 1000_000;
+            if (elapsed > 2000) {
+                recovering = false;
+                recoveryTimer = 0;
+            }
         }
     }
 
