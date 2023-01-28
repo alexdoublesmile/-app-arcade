@@ -364,6 +364,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Century Gothic", Font.PLAIN, 14));
         g.drawString("Score: " + player.getScore(), WIDTH - 100, 30);
+
+        // render slow down meter
+        if (slowDownTimer != 0) {
+            g.setColor(Color.WHITE);
+            g.drawRect(20, 60, 100, 8);
+            g.fillRect(20, 60, (int) (100 - 100.0 * (slowDownTimerDiff / slowDownLength)), 8);
+        }
     }
 
     private void gameDraw() {
