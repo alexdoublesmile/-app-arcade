@@ -1,5 +1,9 @@
 package com.joyful.arcade;
 
+import java.awt.*;
+
+import static java.lang.System.nanoTime;
+
 public class Text {
     private double x;
     private double y;
@@ -13,5 +17,14 @@ public class Text {
         this.y = y;
         this.time = time;
         this.s = s;
+        start = nanoTime();
+    }
+
+    public boolean update() {
+        long elapsed = (nanoTime() - start) / 1000_000;
+        if (elapsed > time) {
+            return true;
+        }
+        return false;
     }
 }
