@@ -273,12 +273,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
                 if (powerUp.getType() == 1) {
                     player.gainLife();
+                    texts.add(new Text(player.getX(), player.getY(), 2000, "Extra life"));
                 }
                 if (powerUp.getType() == 2) {
                     player.increasePower(1);
+                    texts.add(new Text(player.getX(), player.getY(), 2000, "Power"));
                 }
                 if (powerUp.getType() == 3) {
                     player.increasePower(2);
+                    texts.add(new Text(player.getX(), player.getY(), 2000, "Double Power"));
                 }
                 if (powerUp.getType() == 4) {
                     slowDownTimer = nanoTime();
