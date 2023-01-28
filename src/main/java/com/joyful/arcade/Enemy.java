@@ -135,6 +135,12 @@ public class Enemy {
             if (type == 1) {
                 amount = 3;
             }
+            if (type == 2) {
+                amount = 3;
+            }
+            if (type == 3) {
+                amount = 4;
+            }
             for (int i = 0; i < amount; i++) {
                 final Enemy enemy = new Enemy(type, rank - 1);
                 enemy.x = x;
