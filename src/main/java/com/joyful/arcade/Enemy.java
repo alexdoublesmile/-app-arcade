@@ -18,6 +18,9 @@ public class Enemy {
 
     private Color color1;
 
+    private boolean hit;
+    private long hitTimer;
+
     private boolean ready;
     private boolean dead;
 
@@ -165,5 +168,13 @@ public class Enemy {
 
     public int getRank() {
         return rank;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public long getHitTimer() {
+        return hitTimer;
     }
 }
