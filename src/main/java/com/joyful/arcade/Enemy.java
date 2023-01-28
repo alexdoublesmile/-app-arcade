@@ -145,6 +145,7 @@ public class Enemy {
             }
             for (int i = 0; i < amount; i++) {
                 final Enemy enemy = new Enemy(type, rank - 1);
+                enemy.setSlow(slow);
                 enemy.x = x;
                 enemy.y = y;
                 // ?
