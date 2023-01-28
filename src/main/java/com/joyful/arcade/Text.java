@@ -27,4 +27,10 @@ public class Text {
         }
         return false;
     }
+
+    public void draw(Graphics2D g) {
+        g.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+        g.setColor(Color.WHITE);
+        g.drawString(s, (int) x, (int) y);
+    }
 }
