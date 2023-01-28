@@ -340,6 +340,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             explosions.get(i).draw(g);
         }
 
+        // render texts
+        for (int i = 0; i < texts.size(); i++) {
+            texts.get(i).draw(g);
+        }
+
         // render wave numbers
         if (waveStartTimer != 0) {
             g.setFont(new Font("Century Gothic", Font.PLAIN, 18));
