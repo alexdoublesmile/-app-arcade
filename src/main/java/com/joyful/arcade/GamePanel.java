@@ -115,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         String s = "G A M E   O V E R";
         final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
         g.drawString(s, (WIDTH - length) / 2, HEIGHT / 2);
+        gameDraw();
     }
 
     private void gameUpdate() {
