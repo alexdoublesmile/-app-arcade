@@ -147,9 +147,9 @@ public class Player {
 
     public void increasePower(int power) {
         this.power += power;
-        if (powerLevel == 5) {
-            if (power > requiredPower[powerLevel]) {
-                power = requiredPower[powerLevel];
+        if (powerLevel == 4) {
+            if (this.power > requiredPower[powerLevel]) {
+                this.power = requiredPower[powerLevel];
             }
             return;
         }
