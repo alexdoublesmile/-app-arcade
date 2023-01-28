@@ -115,8 +115,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         String s = "G A M E   O V E R";
         final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
         g.drawString(s, (WIDTH - length) / 2, HEIGHT / 2);
-
-
     }
 
     private void gameUpdate() {
@@ -258,6 +256,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 enemy.explode();
                 explosions.add(new Explosion(enemy.getX(), enemy.getY(), enemy.getR(), enemy.getR() + 20));
             }
+        }
+
+        //update dead player
+        if (player.isDead()) {
+            running = false;
         }
 
         // update player-power ups collision

@@ -216,4 +216,8 @@ public class Player {
     public int getRequiredPower() {
         return requiredPower[powerLevel];
     }
+
+    public boolean isDead() {
+        return lives <= 0;
+    }
 }
