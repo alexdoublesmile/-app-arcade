@@ -260,22 +260,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
             // collected power ups
             if (dist < pr + er) {
-                powerUps.remove(i);
 
                 if (powerUp.getType() == 1) {
                     player.gainLife();
                 }
-
                 if (powerUp.getType() == 2) {
                     player.increasePower(1);
                 }
-
                 if (powerUp.getType() == 3) {
                     player.increasePower(2);
                 }
                 if (powerUp.getType() == 4) {
-                    // TODO: 28.01.2023
+                    slowDownTimer = nanoTime();
                 }
+
+                powerUps.remove(i);
+                i--;
             }
         }
     }
