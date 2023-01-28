@@ -300,6 +300,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setColor(backgroundColor);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
+        // render slow background
+        if (slowDownTimer != 0) {
+            g.setColor(new Color(255, 255, 255, 64));
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+        }
+
         // render player
         player.draw(g);
 
