@@ -2,6 +2,8 @@ package com.joyful.arcade;
 
 import java.awt.*;
 
+import static java.lang.System.nanoTime;
+
 public class Enemy {
     private double x;
     private double y;
@@ -93,6 +95,8 @@ public class Enemy {
         if (health <= 0) {
             dead = true;
         }
+        hit = true;
+        hitTimer = nanoTime();
     }
 
     public void explode() {
@@ -149,6 +153,16 @@ public class Enemy {
         if (y < r && dy < 0) dy = -dy;
         if (x > GamePanel.WIDTH - r && dx > 0) dx = -dx;
         if (y > GamePanel.HEIGHT - r && dy > 0) dy = -dy;
+
+
+
+        if (hit) {
+            long elapsed = (nanoTime() - hitTimer) / 1000_000;
+            if (elapsed > 50) {
+                hit = false;
+                hitTimer = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D g) {
