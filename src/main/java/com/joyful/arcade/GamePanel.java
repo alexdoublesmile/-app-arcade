@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<PowerUp> powerUps = new ArrayList<>();
     public static ArrayList<Explosion> explosions = new ArrayList<>();
+    public static ArrayList<Text> texts = new ArrayList<>();
 
     private long waveStartTimer;
     private long waveStartTimerDiff;
@@ -275,6 +276,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     for (int j = 0; j < enemies.size(); j++) {
                         enemies.get(j).setSlow(true);
                     }
+                    texts.add(new Text(player.getX(), player.getY(), 2000, "Slow Down"));
                 }
 
                 powerUps.remove(i);
