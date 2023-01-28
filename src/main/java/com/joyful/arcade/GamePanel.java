@@ -278,6 +278,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 i--;
             }
         }
+
+        // slowdown time
+        if (slowDownTimer > 0) {
+            slowDownTimerDiff = (nanoTime() - slowDownTimer) / 1000_000;
+            if (slowDownTimerDiff > slowDownLength) {
+                slowDownTimer = 0;
+            }
+        }
     }
 
     private void gameRender() {
