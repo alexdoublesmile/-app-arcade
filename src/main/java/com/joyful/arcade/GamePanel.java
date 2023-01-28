@@ -240,10 +240,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 } else if (random < 0.13) {
                     powerUps.add(new PowerUp(4, enemy.getX(), enemy.getY()));
                 }
-                // for test
-                else  {
-                    powerUps.add(new PowerUp(4, enemy.getX(), enemy.getY()));
-                }
 
                 player.addScore(enemy.getType() + enemy.getRank());
                 enemies.remove(i);
