@@ -454,6 +454,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             enemies.add(new Enemy(2, 4));
             enemies.add(new Enemy(3, 4));
         }
+        if (waveNumber == 9) {
+            running = false;
+        }
     }
 
     @Override
