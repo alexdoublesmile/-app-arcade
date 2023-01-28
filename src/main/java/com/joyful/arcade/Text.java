@@ -37,6 +37,8 @@ public class Text {
             alpha = 255;
         }
         g.setColor(new Color(255, 255, 255, alpha));
-        g.drawString(s, (int) x, (int) y);
+        final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+
+        g.drawString(s, (int) (x - (length / 2)), (int) y);
     }
 }
