@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<PowerUp> powerUps = new ArrayList<>();
+    public static ArrayList<Explosion> explosions = new ArrayList<>();
 
     private long waveStartTimer;
     private long waveStartTimerDiff;
@@ -147,6 +148,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             boolean remove = powerUps.get(i).update();
             if (remove) {
                 powerUps.remove(i);
+                i--;
+            }
+        }
+
+        // update explosions
+        for (int i = 0; i < explosions.size(); i++) {
+            boolean remove = explosions.get(i).update();
+            if (remove) {
+                explosions.remove(i);
                 i--;
             }
         }
