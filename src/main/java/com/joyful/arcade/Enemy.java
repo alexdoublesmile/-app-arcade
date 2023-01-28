@@ -33,7 +33,7 @@ public class Enemy {
 
         // default enemy
         if (type == 1) {
-            color1 = Color.BLUE;
+            color1 = new Color(0, 0, 255, 128);
             if (rank == 1) {
                 speed = 2;
                 r = 5;
@@ -57,7 +57,7 @@ public class Enemy {
         }
         // faster & stronger enemy
         if (type == 2) {
-            color1 = Color.RED;
+            color1 = new Color(255, 0, 0, 128);
             if (rank == 1) {
                 speed = 3;
                 r = 5;
@@ -66,7 +66,7 @@ public class Enemy {
         }
         // slow but extra hard enemy
         if (type == 3) {
-            color1 = Color.GREEN;
+            color1 = new Color(0, 255, 0, 128);
             if (rank == 1) {
                 speed = 1.5;
                 r = 5;
