@@ -166,6 +166,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
+        // update texts
+        for (int i = 0; i < texts.size(); i++) {
+            boolean remove = texts.get(i).update();
+            if (remove) {
+                texts.remove(i);
+                i--;
+            }
+        }
+
 
         // update enemy-bullet collisions
         for (int i = 0; i < bullets.size(); i++) {
