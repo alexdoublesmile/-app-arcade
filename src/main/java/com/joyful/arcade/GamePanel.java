@@ -230,7 +230,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 i--;
 
                 enemy.explode();
-                explosions.add(new Explosion(enemy.getX(), enemy.getY(), enemy.getR(), enemy.getR() + 30));
+                explosions.add(new Explosion(enemy.getX(), enemy.getY(), enemy.getR(), enemy.getR() + 20));
             }
         }
 
