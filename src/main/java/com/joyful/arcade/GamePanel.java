@@ -107,6 +107,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //                totalTime = 0;
 //            }
         }
+
+        g.setColor(new Color(0, 100, 255));
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+        String s = "G A M E   O V E R";
+        final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+        g.drawString(s, (WIDTH - length) / 2, HEIGHT / 2);
+
+
     }
 
     private void gameUpdate() {
