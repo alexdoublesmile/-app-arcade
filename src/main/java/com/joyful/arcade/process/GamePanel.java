@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         setFocusable(true);
         requestFocus(); // for key listener to get keys
+        player = new Player();
     }
 
     public void addNotify() {
@@ -68,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        player = new Player();
         waveStart = true;
 
         // game loop
