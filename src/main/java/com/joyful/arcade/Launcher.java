@@ -1,5 +1,7 @@
 package com.joyful.arcade;
 
+import com.joyful.arcade.process.GamePanel;
+
 import javax.swing.*;
 
 public class Launcher {

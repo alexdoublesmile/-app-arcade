@@ -1,4 +1,6 @@
-package com.joyful.arcade;
+package com.joyful.arcade.model;
+
+import com.joyful.arcade.process.GamePanel;
 
 import java.awt.*;
 
