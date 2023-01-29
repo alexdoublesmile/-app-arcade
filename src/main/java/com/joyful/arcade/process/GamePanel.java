@@ -14,19 +14,18 @@ import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable {
-
     private Thread thread;
     private boolean running;
 
-    private BufferedImage image;
-    private Graphics2D g;
-
+    public static Player player;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Explosion> explosions = new ArrayList<>();
-    public static Player player;
     public static ArrayList<PowerUp> powerUps = new ArrayList<>();
     public static ArrayList<Text> texts = new ArrayList<>();
+
+    private BufferedImage image;
+    private Graphics2D g;
 
     private long waveStartTimer;
     private long waveStartTimerDiff;
@@ -40,11 +39,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-
         setFocusable(true);
         requestFocus();
+
         player = new Player();
 
+        addKeyListener(new KeyboardListener(player));
+        initGraphics();
+    }
+
+    private void initGraphics() {
         image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -57,7 +61,6 @@ public class GamePanel extends JPanel implements Runnable {
             thread = new Thread(this);
             thread.start();
         }
-        addKeyListener(new KeyboardListener(player));
     }
 
     @Override
