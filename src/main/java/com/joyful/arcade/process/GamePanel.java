@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.joyful.arcade.util.FrameConstants.TARGET_FRAME_TIME;
 import static com.joyful.arcade.util.TimeHelper.nanosToMillis;
@@ -20,11 +21,11 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean running = true;
 
     public static Player player;
-    public static ArrayList<Bullet> bullets = new ArrayList<>();
-    public static ArrayList<Enemy> enemies = new ArrayList<>();
-    public static ArrayList<Explosion> explosions = new ArrayList<>();
-    public static ArrayList<PowerUp> powerUps = new ArrayList<>();
-    public static ArrayList<Text> texts = new ArrayList<>();
+    public static List<Bullet> bullets = new ArrayList<>();
+    public static List<Enemy> enemies = new ArrayList<>();
+    public static List<Explosion> explosions = new ArrayList<>();
+    public static List<PowerUp> powerUps = new ArrayList<>();
+    public static List<Text> texts = new ArrayList<>();
 
     private BufferedImage mainImage;
     private Graphics2D mainGraphics;
@@ -113,14 +114,12 @@ public class GamePanel extends JPanel implements Runnable {
             createNewEnemies();
         }
 
-
         player.update();
         enemies.forEach(Enemy::update);
         updateElements(bullets);
         updateElements(powerUps);
         updateElements(explosions);
         updateElements(texts);
-
 
         // update enemy-bullet collisions
         for (int i = 0; i < bullets.size(); i++) {
@@ -129,8 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
             final double by = bullet.getY();
             final double br = bullet.getR();
 
-            for (int j = 0; j < enemies.size(); j++) {
-                final Enemy enemy = enemies.get(j);
+            for (final Enemy enemy : enemies) {
                 final double ex = enemy.getX();
                 final double ey = enemy.getY();
                 final double er = enemy.getR();
@@ -154,8 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
             int px = player.getX();
             int py = player.getY();
             int pr = player.getR();
-            for (int i = 0; i < enemies.size(); i++) {
-                final Enemy enemy = enemies.get(i);
+            for (final Enemy enemy : enemies) {
                 final double ex = enemy.getX();
                 final double ey = enemy.getY();
                 final double er = enemy.getR();
@@ -232,8 +229,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 if (powerUp.getType() == 4) {
                     slowDownTimer = nanoTime();
-                    for (int j = 0; j < enemies.size(); j++) {
-                        enemies.get(j).setSlow(true);
+                    for (Enemy enemy : enemies) {
+                        enemy.setSlow(true);
                     }
                     texts.add(new Text(player.getX(), player.getY(), 2000, "Slow Down"));
                 }
@@ -248,8 +245,8 @@ public class GamePanel extends JPanel implements Runnable {
             slowDownTimerDiff = (nanoTime() - slowDownTimer) / 1000_000;
             if (slowDownTimerDiff > slowDownLength) {
                 slowDownTimer = 0;
-                for (int j = 0; j < enemies.size(); j++) {
-                    enemies.get(j).setSlow(false);
+                for (Enemy enemy : enemies) {
+                    enemy.setSlow(false);
                 }
             }
         }
@@ -267,33 +264,13 @@ public class GamePanel extends JPanel implements Runnable {
             mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         }
 
-        // render player
         player.draw(mainGraphics);
-
-        // render bullets
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(mainGraphics);
-        }
-
-        // render enemies
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).draw(mainGraphics);
-        }
-
-        // render power ups
-        for (int i = 0; i < powerUps.size(); i++) {
-            powerUps.get(i).draw(mainGraphics);
-        }
-
-        // render explosions
-        for (int i = 0; i < explosions.size(); i++) {
-            explosions.get(i).draw(mainGraphics);
-        }
-
-        // render texts
-        for (int i = 0; i < texts.size(); i++) {
-            texts.get(i).draw(mainGraphics);
-        }
+        drawElements(bullets);
+        drawElements(enemies);
+        drawElements(powerUps);
+        drawElements(explosions);
+        drawElements(texts);
+        drawElements(bullets);
 
         // render wave numbers
         if (waveStartTimer != 0) {
@@ -424,7 +401,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameDraw();
     }
 
-    private void updateElements(ArrayList<? extends Updatable> elements) {
+    private void updateElements(List<? extends Updatable> elements) {
         for (int i = 0; i < elements.size(); i++) {
             boolean remove = elements.get(i).update();
             if (remove) {
@@ -433,5 +410,9 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+    }
+
+    private void drawElements(List<? extends Drawable> elements) {
+        elements.forEach(element -> element.draw(mainGraphics));
     }
 }
