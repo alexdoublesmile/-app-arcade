@@ -1,5 +1,6 @@
 package com.joyful.arcade.process;
 
+import com.joyful.arcade.listener.KeyboardListener;
 import com.joyful.arcade.model.*;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import static java.awt.event.KeyEvent.*;
 import static java.lang.System.nanoTime;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 400;
     private static final int FPS = 30;
@@ -55,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             thread = new Thread(this);
             thread.start();
         }
-        addKeyListener(this);
+        addKeyListener(new KeyboardListener(player));
     }
 
     @Override
@@ -475,51 +476,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         if (waveNumber == 9) {
             running = false;
-        }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        final int keyCode = e.getKeyCode();
-        if (keyCode == VK_LEFT) {
-            player.setLeft(true);
-        }
-        if (keyCode == VK_RIGHT) {
-            player.setRight(true);
-        }
-        if (keyCode == VK_UP) {
-            player.setUp(true);
-        }
-        if (keyCode == VK_DOWN) {
-            player.setDown(true);
-        }
-        if (keyCode == VK_Z) {
-            player.setFiring(true);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        final int keyCode = e.getKeyCode();
-        if (keyCode == VK_LEFT) {
-            player.setLeft(false);
-        }
-        if (keyCode == VK_RIGHT) {
-            player.setRight(false);
-        }
-        if (keyCode == VK_UP) {
-            player.setUp(false);
-        }
-        if (keyCode == VK_DOWN) {
-            player.setDown(false);
-        }
-        if (keyCode == VK_Z) {
-            player.setFiring(false);
         }
     }
 }
