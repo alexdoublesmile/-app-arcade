@@ -2,22 +2,16 @@ package com.joyful.arcade.listener;
 
 import com.joyful.arcade.model.Player;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import static java.awt.event.KeyEvent.*;
-import static java.awt.event.KeyEvent.VK_Z;
 
-public class KeyboardListener implements KeyListener {
+public class KeyboardListener extends KeyAdapter {
     private final Player player;
 
     public KeyboardListener(Player player) {
         this.player = player;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
