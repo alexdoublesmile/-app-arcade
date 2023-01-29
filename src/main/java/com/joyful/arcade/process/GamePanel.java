@@ -21,11 +21,11 @@ public class GamePanel extends JPanel implements Runnable {
     private BufferedImage image;
     private Graphics2D g;
 
-    public static Player player;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static ArrayList<Enemy> enemies = new ArrayList<>();
-    public static ArrayList<PowerUp> powerUps = new ArrayList<>();
     public static ArrayList<Explosion> explosions = new ArrayList<>();
+    public static Player player;
+    public static ArrayList<PowerUp> powerUps = new ArrayList<>();
     public static ArrayList<Text> texts = new ArrayList<>();
 
     private long waveStartTimer;
@@ -44,6 +44,11 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         requestFocus();
         player = new Player();
+
+        image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        g = (Graphics2D) image.getGraphics();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     public void addNotify() {
@@ -58,12 +63,6 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         running = true;
-
-        image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D) image.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
         waveStart = true;
 
         long startTime;
@@ -91,7 +90,10 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         }
+        gameOver();
+    }
 
+    private void gameOver() {
         g.setColor(new Color(0, 100, 255));
         g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         g.setColor(Color.WHITE);
