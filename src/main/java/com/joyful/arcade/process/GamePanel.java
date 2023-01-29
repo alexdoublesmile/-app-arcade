@@ -25,8 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
     public static ArrayList<PowerUp> powerUps = new ArrayList<>();
     public static ArrayList<Text> texts = new ArrayList<>();
 
-    private BufferedImage image;
-    private Graphics2D g;
+    private BufferedImage mainImage;
+    private Graphics2D mainGraphics;
 
     private long waveStartTimer;
     private long waveStartTimerDiff;
@@ -50,10 +50,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void initGraphics() {
-        image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D) image.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        mainImage = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        mainGraphics = (Graphics2D) mainImage.getGraphics();
+        mainGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        mainGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     public void addNotify() {
@@ -98,16 +98,16 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void gameOver() {
-        g.setColor(new Color(0, 100, 255));
-        g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+        mainGraphics.setColor(new Color(0, 100, 255));
+        mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        mainGraphics.setColor(Color.WHITE);
+        mainGraphics.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         String s = "G A M E   O V E R";
-        int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-        g.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2);
+        int length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
+        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2);
         s = "Final score: " + player.getScore();
-        length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-        g.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2 + 30);
+        length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
+        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2 + 30);
         gameDraw();
     }
 
@@ -310,49 +310,49 @@ public class GamePanel extends JPanel implements Runnable {
     private void gameRender() {
         // render background
         final Color backgroundColor = new Color(0, 100, 255);
-        g.setColor(backgroundColor);
-        g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        mainGraphics.setColor(backgroundColor);
+        mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
         // render slow background
         if (slowDownTimer != 0) {
-            g.setColor(new Color(255, 255, 255, 64));
-            g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+            mainGraphics.setColor(new Color(255, 255, 255, 64));
+            mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         }
 
         // render player
-        player.draw(g);
+        player.draw(mainGraphics);
 
         // render bullets
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(g);
+            bullets.get(i).draw(mainGraphics);
         }
 
         // render enemies
         for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).draw(g);
+            enemies.get(i).draw(mainGraphics);
         }
 
         // render power ups
         for (int i = 0; i < powerUps.size(); i++) {
-            powerUps.get(i).draw(g);
+            powerUps.get(i).draw(mainGraphics);
         }
 
         // render explosions
         for (int i = 0; i < explosions.size(); i++) {
-            explosions.get(i).draw(g);
+            explosions.get(i).draw(mainGraphics);
         }
 
         // render texts
         for (int i = 0; i < texts.size(); i++) {
-            texts.get(i).draw(g);
+            texts.get(i).draw(mainGraphics);
         }
 
         // render wave numbers
         if (waveStartTimer != 0) {
-            g.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+            mainGraphics.setFont(new Font("Century Gothic", Font.PLAIN, 18));
             final String s = "- W A V E  " + waveNumber + "  -";
             // ?
-            final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+            final int length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
             // ?
             int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
             // ?
@@ -360,52 +360,52 @@ public class GamePanel extends JPanel implements Runnable {
                 alpha = 255;
             }
             // ?
-            g.setColor(new Color(255, 255, 255, alpha));
+            mainGraphics.setColor(new Color(255, 255, 255, alpha));
             // ?
-            g.drawString(s, PANEL_WIDTH / 2 - length / 2, PANEL_HEIGHT / 2);
+            mainGraphics.drawString(s, PANEL_WIDTH / 2 - length / 2, PANEL_HEIGHT / 2);
         }
 
         //  render player lives
         for (int i = 0; i < player.getLives(); i++) {
-            g.setColor(Color.WHITE);
-            g.fillOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
+            mainGraphics.setColor(Color.WHITE);
+            mainGraphics.fillOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
 
-            g.setStroke(new BasicStroke(3));
-            g.setColor(Color.WHITE.darker());
-            g.drawOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
+            mainGraphics.setStroke(new BasicStroke(3));
+            mainGraphics.setColor(Color.WHITE.darker());
+            mainGraphics.drawOval(20 + (20 * i), 20, player.getR() * 2, player.getR() * 2);
 
-            g.setStroke(new BasicStroke(1));
+            mainGraphics.setStroke(new BasicStroke(1));
         }
 
         // render player powers
-        g.setColor(Color.YELLOW);
-        g.fillRect(20, 40, player.getPower() * 8, 8);
-        g.setColor(Color.YELLOW.darker());
+        mainGraphics.setColor(Color.YELLOW);
+        mainGraphics.fillRect(20, 40, player.getPower() * 8, 8);
+        mainGraphics.setColor(Color.YELLOW.darker());
 
-        g.setStroke(new BasicStroke(2));
+        mainGraphics.setStroke(new BasicStroke(2));
         for (int i = 0; i < player.getRequiredPower(); i++) {
-            g.drawRect(20 + 8 * i, 40, 8, 8);
+            mainGraphics.drawRect(20 + 8 * i, 40, 8, 8);
         }
 
-        g.setStroke(new BasicStroke(1));
+        mainGraphics.setStroke(new BasicStroke(1));
 
 
         // render player scores
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-        g.drawString("Score: " + player.getScore(), PANEL_WIDTH - 100, 30);
+        mainGraphics.setColor(Color.WHITE);
+        mainGraphics.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        mainGraphics.drawString("Score: " + player.getScore(), PANEL_WIDTH - 100, 30);
 
         // render slow down meter
         if (slowDownTimer != 0) {
-            g.setColor(Color.WHITE);
-            g.drawRect(20, 60, 100, 8);
-            g.fillRect(20, 60, (int) ((slowDownLength - slowDownTimerDiff) * 100 / slowDownLength), 8);
+            mainGraphics.setColor(Color.WHITE);
+            mainGraphics.drawRect(20, 60, 100, 8);
+            mainGraphics.fillRect(20, 60, (int) ((slowDownLength - slowDownTimerDiff) * 100 / slowDownLength), 8);
         }
     }
 
     private void gameDraw() {
         final Graphics g2 = this.getGraphics();
-        g2.drawImage(image, 0, 0, null);
+        g2.drawImage(mainImage, 0, 0, null);
         g2.dispose();
     }
 
