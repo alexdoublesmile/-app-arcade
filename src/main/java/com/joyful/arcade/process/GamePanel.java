@@ -1,5 +1,6 @@
 package com.joyful.arcade.process;
 
+import com.joyful.arcade.exception.WaitFrameException;
 import com.joyful.arcade.listener.KeyboardListener;
 import com.joyful.arcade.model.*;
 
@@ -89,7 +90,7 @@ public class GamePanel extends JPanel implements Runnable {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new WaitFrameException(e);
             }
         }
     }
