@@ -1,8 +1,8 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
-
 import java.awt.*;
+
+import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 
 public class PowerUp {
     private double x;
@@ -57,7 +57,7 @@ public class PowerUp {
 
     public boolean update() {
         y += 2;
-        if (y > GamePanel.HEIGHT + r) {
+        if (y > PANEL_HEIGHT + r) {
             return true;
         }
         return false;

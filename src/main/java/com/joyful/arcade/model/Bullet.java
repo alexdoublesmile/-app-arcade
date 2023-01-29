@@ -1,8 +1,10 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
 
 import java.awt.*;
+
+import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
+import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 
 public class Bullet {
     private double x;
@@ -32,8 +34,8 @@ public class Bullet {
         x += dx;
         y += dy;
 
-        if (x < -r || x > GamePanel.WIDTH + r
-            || y < -r || y > GamePanel.HEIGHT + r) {
+        if (x < -r || x > PANEL_WIDTH + r
+            || y < -r || y > PANEL_HEIGHT + r) {
             return true;
         }
 

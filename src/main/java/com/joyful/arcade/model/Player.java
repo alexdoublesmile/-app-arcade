@@ -4,6 +4,8 @@ import com.joyful.arcade.process.GamePanel;
 
 import java.awt.*;
 
+import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
+import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
 public class Player {
@@ -31,8 +33,8 @@ public class Player {
     private int[] requiredPower = {1, 2, 3, 4, 5};
 
     public Player() {
-        x = GamePanel.WIDTH / 2;
-        y = GamePanel.HEIGHT / 2;
+        x = PANEL_WIDTH / 2;
+        y = PANEL_HEIGHT / 2;
         r = 5;
 
         dx = 0;
@@ -83,11 +85,11 @@ public class Player {
             y = r;
         }
 
-        if (x > GamePanel.WIDTH - r) {
-            x = GamePanel.WIDTH - r;
+        if (x > PANEL_WIDTH - r) {
+            x = PANEL_WIDTH - r;
         }
-        if (y > GamePanel.HEIGHT - r) {
-            y = GamePanel.HEIGHT - r;
+        if (y > PANEL_HEIGHT - r) {
+            y = PANEL_HEIGHT - r;
         }
 
         dx = 0;

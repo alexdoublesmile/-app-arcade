@@ -2,18 +2,18 @@ package com.joyful.arcade.process;
 
 import com.joyful.arcade.listener.KeyboardListener;
 import com.joyful.arcade.model.*;
+import com.joyful.arcade.util.FrameConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
+import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable {
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 400;
-    private static final int FPS = 30;
 
     private Thread thread;
     private boolean running;
@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int slowDownLength = 6000;
 
     public GamePanel() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
         setFocusable(true);
         requestFocus();
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         running = true;
 
-        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D) image.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
         long URDTimeMillis;
         long waitTime;
 
-        long targetTime = 1000 / FPS;
+        long targetTime = 1000 / FrameConstants.FPS;
 
         while(running) {
             startTime = nanoTime();
@@ -93,15 +93,15 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g.setColor(new Color(0, 100, 255));
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         String s = "G A M E   O V E R";
         int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-        g.drawString(s, (WIDTH - length) / 2, HEIGHT / 2);
+        g.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2);
         s = "Final score: " + player.getScore();
         length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
-        g.drawString(s, (WIDTH - length) / 2, HEIGHT / 2 + 30);
+        g.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2 + 30);
         gameDraw();
     }
 
@@ -305,12 +305,12 @@ public class GamePanel extends JPanel implements Runnable {
         // render background
         final Color backgroundColor = new Color(0, 100, 255);
         g.setColor(backgroundColor);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
         // render slow background
         if (slowDownTimer != 0) {
             g.setColor(new Color(255, 255, 255, 64));
-            g.fillRect(0, 0, WIDTH, HEIGHT);
+            g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         }
 
         // render player
@@ -356,7 +356,7 @@ public class GamePanel extends JPanel implements Runnable {
             // ?
             g.setColor(new Color(255, 255, 255, alpha));
             // ?
-            g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
+            g.drawString(s, PANEL_WIDTH / 2 - length / 2, PANEL_HEIGHT / 2);
         }
 
         //  render player lives
@@ -387,7 +387,7 @@ public class GamePanel extends JPanel implements Runnable {
         // render player scores
         g.setColor(Color.WHITE);
         g.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-        g.drawString("Score: " + player.getScore(), WIDTH - 100, 30);
+        g.drawString("Score: " + player.getScore(), PANEL_WIDTH - 100, 30);
 
         // render slow down meter
         if (slowDownTimer != 0) {

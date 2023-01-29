@@ -4,6 +4,8 @@ import com.joyful.arcade.process.GamePanel;
 
 import java.awt.*;
 
+import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
+import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
 public class Enemy {
@@ -109,7 +111,7 @@ public class Enemy {
         }
 
         // y is null & x is random in left screen half + quater (so left & right quarters are empty)
-        x = Math.random() * GamePanel.WIDTH / 2 + GamePanel.WIDTH / 4;
+        x = Math.random() * PANEL_WIDTH / 2 + PANEL_WIDTH / 4;
         y = -r;
 
         // 20-160 degrees (so they all move to down by different angles)
@@ -189,16 +191,16 @@ public class Enemy {
         }
 
         if (!ready) {
-            if (x > r && x < GamePanel.WIDTH - r
-                    && y > r && y < GamePanel.HEIGHT - r) {
+            if (x > r && x < PANEL_WIDTH - r
+                    && y > r && y < PANEL_HEIGHT - r) {
                 ready = true;
             }
         }
 
         if (x < r && dx < 0) dx = -dx;
         if (y < r && dy < 0) dy = -dy;
-        if (x > GamePanel.WIDTH - r && dx > 0) dx = -dx;
-        if (y > GamePanel.HEIGHT - r && dy > 0) dy = -dy;
+        if (x > PANEL_WIDTH - r && dx > 0) dx = -dx;
+        if (y > PANEL_HEIGHT - r && dy > 0) dy = -dy;
 
 
 
