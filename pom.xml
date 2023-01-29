@@ -6,7 +6,7 @@
 
     <groupId>com.joyful</groupId>
     <artifactId>arcade</artifactId>
-    <version>1.16.10</version>
+    <version>1.16.11</version>
     <packaging>jar</packaging>
 
     <properties>

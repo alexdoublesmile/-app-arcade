@@ -16,7 +16,7 @@ import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
-    private boolean running;
+    private boolean running = true;
 
     public static Player player;
     public static ArrayList<Bullet> bullets = new ArrayList<>();
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     private long waveStartTimerDiff;
     private int waveNumber;
     private int waveDelay = 2000;
-    private boolean waveStart;
+    private boolean waveStart = true;
 
     private long slowDownTimer;
     private long slowDownTimerDiff;
@@ -66,9 +66,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        running = true;
-        waveStart = true;
-
         while(running) {
             final long waitTime = makeFrame();
             waitFrameForTargetTime(waitTime);
