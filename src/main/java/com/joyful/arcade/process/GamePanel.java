@@ -5,19 +5,15 @@ import com.joyful.arcade.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static java.awt.event.KeyEvent.*;
 import static java.lang.System.nanoTime;
 
 public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 400;
     private static final int FPS = 30;
-    private double averageFps;
 
     private Thread thread;
     private boolean running;
@@ -43,11 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
     private int slowDownLength = 6000;
 
     public GamePanel() {
-        super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
         setFocusable(true);
-        requestFocus(); // for key listener to get keys
+        requestFocus();
         player = new Player();
     }
 
@@ -71,14 +66,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         waveStart = true;
 
-        // game loop
         long startTime;
         long URDTimeMillis;
         long waitTime;
-        long totalTime = 0;
-
-        int frameCount = 0;
-        int maxFrameCount = 30;
 
         long targetTime = 1000 / FPS;
 
@@ -100,15 +90,6 @@ public class GamePanel extends JPanel implements Runnable {
                     e.printStackTrace();
                 }
             }
-
-            // for render fps value
-//            totalTime += nanoTime() - startTime;
-//            frameCount++;
-//            if (frameCount == maxFrameCount) {
-//                averageFps = 1000.0 / (totalTime / frameCount / 1000_000);
-//                frameCount = 0;
-//                totalTime = 0;
-//            }
         }
 
         g.setColor(new Color(0, 100, 255));
@@ -126,13 +107,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void gameUpdate() {
         // new wave
-        // if wave not started & no enemies, start timer & don't start wave than (wave start = false)
         if (waveStartTimer == 0 && enemies.size() == 0) {
             waveNumber++;
             waveStart = false;
             waveStartTimer = nanoTime();
         } else {
-            // start new wave if last wave was started more than delay time ago (wave start = true)
             waveStartTimerDiff = (nanoTime() - waveStartTimer) / 1000_000;
             if (waveStartTimerDiff > waveDelay) {
                 waveStart = true;
@@ -140,13 +119,11 @@ public class GamePanel extends JPanel implements Runnable {
                 waveStartTimerDiff = 0;
             }
         }
-
-        // create enemies if needs (wave start true & no enemies)
         if (waveStart && enemies.size() == 0) {
             createNewEnemies();
         }
 
-        // update player
+
         player.update();
 
         // update bullets
