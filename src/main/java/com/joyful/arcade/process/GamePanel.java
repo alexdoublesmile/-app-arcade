@@ -2,7 +2,6 @@ package com.joyful.arcade.process;
 
 import com.joyful.arcade.listener.KeyboardListener;
 import com.joyful.arcade.model.*;
-import com.joyful.arcade.util.FrameConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static com.joyful.arcade.util.FrameConstants.TARGET_FRAME_TIME;
+import static com.joyful.arcade.util.TimeHelper.nanosToMillis;
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
@@ -69,30 +69,32 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
         waveStart = true;
 
-        long startTime;
-        long URDTimeMillis;
-        long waitTime;
-
         while(running) {
-            startTime = nanoTime();
-
-            gameUpdate();
-            gameRender();
-            gameDraw();
-
-            URDTimeMillis = (nanoTime() - startTime) / 1000_000;
-            waitTime = TARGET_FRAME_TIME - URDTimeMillis;
-
-            // wait for 30 frames(game iterations) per second
-            if (waitTime > 0) {
-                try {
-                    Thread.sleep(waitTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            final long waitTime = makeFrame();
+            waitFrameForTargetTime(waitTime);
         }
         gameOver();
+    }
+
+    private long makeFrame() {
+        final long startTime = nanoTime();
+
+        gameUpdate();
+        gameRender();
+        gameDraw();
+
+        long frameTime = nanosToMillis((nanoTime() - startTime));
+        return TARGET_FRAME_TIME - frameTime;
+    }
+
+    private void waitFrameForTargetTime(long waitTime) {
+        if (waitTime > 0) {
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void gameOver() {
