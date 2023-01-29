@@ -95,20 +95,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void gameOver() {
-        mainGraphics.setColor(new Color(0, 100, 255));
-        mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
-        mainGraphics.setColor(Color.WHITE);
-        mainGraphics.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-        String s = "G A M E   O V E R";
-        int length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
-        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2);
-        s = "Final score: " + player.getScore();
-        length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
-        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2 + 30);
-        gameDraw();
-    }
-
     private void gameUpdate() {
         // new wave
         if (waveStartTimer == 0 && enemies.size() == 0) {
@@ -116,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
             waveStart = false;
             waveStartTimer = nanoTime();
         } else {
-            waveStartTimerDiff = (nanoTime() - waveStartTimer) / 1000_000;
+            waveStartTimerDiff = nanosToMillis((nanoTime() - waveStartTimer));
             if (waveStartTimerDiff > waveDelay) {
                 waveStart = true;
                 waveStartTimer = 0;
@@ -129,47 +115,11 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         player.update();
-
-        // update bullets
-        for (int i = 0; i < bullets.size(); i++) {
-            boolean remove = bullets.get(i).update();
-            if (remove) {
-                bullets.remove(i);
-                i--;
-            }
-        }
-
-        // update enemies
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update();
-        }
-
-        // update power ups
-        for (int i = 0; i < powerUps.size(); i++) {
-            boolean remove = powerUps.get(i).update();
-            if (remove) {
-                powerUps.remove(i);
-                i--;
-            }
-        }
-
-        // update explosions
-        for (int i = 0; i < explosions.size(); i++) {
-            boolean remove = explosions.get(i).update();
-            if (remove) {
-                explosions.remove(i);
-                i--;
-            }
-        }
-
-        // update texts
-        for (int i = 0; i < texts.size(); i++) {
-            boolean remove = texts.get(i).update();
-            if (remove) {
-                texts.remove(i);
-                i--;
-            }
-        }
+        enemies.forEach(Enemy::update);
+        updateElements(bullets);
+        updateElements(powerUps);
+        updateElements(explosions);
+        updateElements(texts);
 
 
         // update enemy-bullet collisions
@@ -457,6 +407,31 @@ public class GamePanel extends JPanel implements Runnable {
         }
         if (waveNumber == 9) {
             running = false;
+        }
+    }
+
+    private void gameOver() {
+        mainGraphics.setColor(new Color(0, 100, 255));
+        mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        mainGraphics.setColor(Color.WHITE);
+        mainGraphics.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+        String s = "G A M E   O V E R";
+        int length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
+        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2);
+        s = "Final score: " + player.getScore();
+        length = (int) mainGraphics.getFontMetrics().getStringBounds(s, mainGraphics).getWidth();
+        mainGraphics.drawString(s, (PANEL_WIDTH - length) / 2, PANEL_HEIGHT / 2 + 30);
+        gameDraw();
+    }
+
+    private void updateElements(ArrayList<? extends Updatable> elements) {
+        for (int i = 0; i < elements.size(); i++) {
+            boolean remove = elements.get(i).update();
+            if (remove) {
+                elements.remove(i);
+                i--;
+            }
+
         }
     }
 }

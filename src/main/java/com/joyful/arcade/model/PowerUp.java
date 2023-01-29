@@ -4,7 +4,7 @@ import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 
-public class PowerUp {
+public class PowerUp implements Updatable, Drawable{
     private double x;
     private double y;
     private int r;
@@ -55,6 +55,7 @@ public class PowerUp {
         return type;
     }
 
+    @Override
     public boolean update() {
         y += 2;
         if (y > PANEL_HEIGHT + r) {
@@ -63,6 +64,7 @@ public class PowerUp {
         return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(color1);
         g.fillRect((int) (x - r), (int) (y - r), 2 * r, 2 * r);

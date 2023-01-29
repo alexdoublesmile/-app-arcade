@@ -4,7 +4,7 @@ import java.awt.*;
 
 import static java.lang.System.nanoTime;
 
-public class Text {
+public class Text implements Updatable, Drawable {
     private double x;
     private double y;
     private long time;
@@ -20,6 +20,7 @@ public class Text {
         start = nanoTime();
     }
 
+    @Override
     public boolean update() {
         long elapsed = (nanoTime() - start) / 1000_000;
         if (elapsed > time) {
@@ -28,6 +29,7 @@ public class Text {
         return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 

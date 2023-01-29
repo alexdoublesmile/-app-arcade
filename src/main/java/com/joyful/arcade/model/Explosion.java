@@ -2,7 +2,7 @@ package com.joyful.arcade.model;
 
 import java.awt.*;
 
-public class Explosion {
+public class Explosion implements Updatable, Drawable{
 
     private double x;
     private double y;
@@ -16,6 +16,7 @@ public class Explosion {
         this.maxRadius = maxRadius;
     }
 
+    @Override
     public boolean update() {
         r += 2;
         if (r > maxRadius) {
@@ -24,6 +25,7 @@ public class Explosion {
         return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(new Color(255, 255, 255, 128));
         g.setStroke(new BasicStroke(3));

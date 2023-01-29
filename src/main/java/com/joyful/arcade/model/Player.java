@@ -8,7 +8,7 @@ import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Player {
+public class Player implements Updatable, Drawable{
     private int x;
     private int y;
     private int r;
@@ -61,7 +61,8 @@ public class Player {
         recoveryTimer = nanoTime();
     }
 
-    public void update() {
+    @Override
+    public boolean update() {
         if (left) {
             dx = -speed;
         }
@@ -121,8 +122,10 @@ public class Player {
                 recoveryTimer = 0;
             }
         }
+        return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         if (recovering) {
             g.setColor(color2);

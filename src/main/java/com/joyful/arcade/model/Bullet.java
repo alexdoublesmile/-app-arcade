@@ -6,7 +6,7 @@ import java.awt.*;
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 
-public class Bullet {
+public class Bullet implements Updatable, Drawable{
     private double x;
     private double y;
     private int r;
@@ -30,6 +30,7 @@ public class Bullet {
         color1 = Color.YELLOW;
     }
 
+    @Override
     public boolean update() {
         x += dx;
         y += dy;
@@ -42,6 +43,7 @@ public class Bullet {
         return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(color1);
         g.fillOval((int) x - r, (int) y - r, 2 * r, 2 * r);

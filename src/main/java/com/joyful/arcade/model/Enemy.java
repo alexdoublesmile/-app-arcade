@@ -8,7 +8,7 @@ import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Enemy {
+public class Enemy implements Updatable, Drawable{
     private double x;
     private double y;
     private int r;
@@ -181,7 +181,8 @@ public class Enemy {
         return dead;
     }
 
-    public void update() {
+    @Override
+    public boolean update() {
         if (slow) {
             x += dx * 0.3;
             y += dy * 0.3;
@@ -211,8 +212,10 @@ public class Enemy {
                 hitTimer = 0;
             }
         }
+        return false;
     }
 
+    @Override
     public void draw(Graphics2D g) {
         if (hit) {
 
