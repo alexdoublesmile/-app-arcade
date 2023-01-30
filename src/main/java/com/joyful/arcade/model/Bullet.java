@@ -74,4 +74,9 @@ public class Bullet implements Updatable, Drawable, Contactable {
     public void setWindow(Window window) {
         this.window = window;
     }
+
+    @Override
+    public void remove() {
+        window.removeBullet(this);
+    }
 }

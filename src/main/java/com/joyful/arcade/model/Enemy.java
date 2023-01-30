@@ -1,7 +1,5 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +169,10 @@ public class Enemy implements Updatable, Drawable, Contactable {
         return enemiesForAdd;
     }
 
+    private void setSlow(boolean slow) {
+        this.slow= slow;
+    }
+
     public double getX() {
         return x;
     }
@@ -262,14 +264,6 @@ public class Enemy implements Updatable, Drawable, Contactable {
         return hitTimer;
     }
 
-    public boolean isSlow() {
-        return slow;
-    }
-
-    public void setSlow(boolean slow) {
-        this.slow = slow;
-    }
-
     @Override
     public void resolveContact(Contactable with) {
         if (with instanceof Bullet) {
@@ -281,8 +275,16 @@ public class Enemy implements Updatable, Drawable, Contactable {
         this.window = window;
     }
 
-//    public void remove() {
-//        window.removeEnemy(this);
-//        window = null;
-//    }
+    public void setNormSpeed() {
+        setSlow(false);
+    }
+
+    public void setSlowSpeed() {
+        setSlow(true);
+    }
+
+    @Override
+    public void remove() {
+        window.removeEnemy(this);
+    }
 }

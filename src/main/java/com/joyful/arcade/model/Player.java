@@ -1,14 +1,12 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
-
 import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Player implements Updatable, Drawable{
+public class Player implements Updatable, Drawable, Contactable {
     private int x;
     private int y;
     private int r;
@@ -128,6 +126,11 @@ public class Player implements Updatable, Drawable{
     }
 
     @Override
+    public void remove() {
+        window.removePlayer();
+    }
+
+    @Override
     public void draw(Graphics2D g) {
         if (recovering) {
             g.setColor(color2);
@@ -192,11 +195,11 @@ public class Player implements Updatable, Drawable{
         this.firing = firing;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -238,5 +241,34 @@ public class Player implements Updatable, Drawable{
 
     public void setWindow(Window window) {
         this.window = window;
+    }
+
+    @Override
+    public void resolveContact(Contactable with) {
+        if (with instanceof Enemy) {
+            loseLife();
+        }
+        if (with instanceof PowerUp) {
+            PowerUp powerUp = (PowerUp) with;
+
+            switch (powerUp.getType()) {
+                case 1:
+                    gainLife();
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Extra life"));
+                    break;
+                case 2:
+                    increasePower(1);
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Power"));
+                    break;
+                case 3:
+                    increasePower(2);
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Double Power"));
+                    break;
+                case 4:
+                    window.startSlowDown();
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Slow Down"));
+                    break;
+            }
+        }
     }
 }

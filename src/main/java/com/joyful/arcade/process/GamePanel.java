@@ -22,9 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean running = true;
 
     private Window window = new Window();
-    public static List<Explosion> explosions = new ArrayList<>();
-    public static List<PowerUp> powerUps = new ArrayList<>();
-    public static List<Text> texts = new ArrayList<>();
+    private List<Updatable> forRemove = new ArrayList<>();
 
     private BufferedImage mainImage;
     private Graphics2D mainGraphics;
@@ -34,10 +32,6 @@ public class GamePanel extends JPanel implements Runnable {
     private int waveNumber;
     private int waveDelay = 2000;
     private boolean waveStart = true;
-
-    private long slowDownTimer;
-    private long slowDownTimerDiff;
-    private int slowDownLength = 6000;
 
     public GamePanel() {
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -96,6 +90,9 @@ public class GamePanel extends JPanel implements Runnable {
     private void gameUpdate() {
         List<Bullet> bullets = window.getBullets();
         List<Enemy> enemies = window.getEnemies();
+        List<Explosion> explosions = window.getExplosions();
+        List<PowerUp> powerUps = window.getPowerUps();
+        List<Text> texts = window.getTexts();
 
         // new wave
         if (waveStartTimer == 0 && enemies.size() == 0) {
@@ -115,58 +112,20 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         window.getPlayer().update();
-        enemies.forEach(Enemy::update);
-        updateElements(window.getBullets());
+//        enemies.forEach(Enemy::update);
+        updateElements(enemies);
+        updateElements(bullets);
         updateElements(powerUps);
         updateElements(explosions);
         updateElements(texts);
+        forRemove.forEach(Updatable::remove);
+        forRemove.clear();
 
-        checkCollisions(bullets, enemies);
-
-        // update enemy-bullet collisions
-//        for (int i = 0; i < bullets.size(); i++) {
-//            final Bullet bullet = bullets.get(i);
-//            final double bx = bullet.getX();
-//            final double by = bullet.getY();
-//            final double br = bullet.getR();
-//
-//            for (final Enemy enemy : enemies) {
-//                final double ex = enemy.getX();
-//                final double ey = enemy.getY();
-//                final double er = enemy.getR();
-//
-//                final double dx = bx - ex;
-//                final double dy = by - ey;
-//                final double dist = Math.sqrt(dx * dx + dy * dy);
-//
-//                if (dist < br + er) {
-//                    enemy.hit();
-//                    bullets.remove(i);
-//                    i--;
-//                    break;
-//                }
-//            }
-//        }
-
-        // update window.getPlayer()-enemy collision
+        bullets.forEach(bullet -> checkCollisions(bullet, enemies));
         if (!window.getPlayer().isRecovering()) {
-            int px = window.getPlayer().getX();
-            int py = window.getPlayer().getY();
-            int pr = window.getPlayer().getR();
-            for (final Enemy enemy : enemies) {
-                final double ex = enemy.getX();
-                final double ey = enemy.getY();
-                final double er = enemy.getR();
-
-                double dx = px - ex;
-                double dy = py - ey;
-                final double dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < pr + er) {
-                    window.getPlayer().loseLife();
-                }
-            }
+            checkCollisions(window.getPlayer(), enemies);
         }
+        checkCollisions(window.getPlayer(), powerUps);
 
         // update enemies dead
         final List<Enemy> enemiesForRemove = new ArrayList<>();
@@ -177,13 +136,13 @@ public class GamePanel extends JPanel implements Runnable {
                 // chance for poweruo
                 final double random = Math.random();
                 if (random < 0.001) {
-                    powerUps.add(new PowerUp(1, enemy.getX(), enemy.getY()));
+                    window.addPowerUp(new PowerUp(1, enemy.getX(), enemy.getY()));
                 } else if (random < 0.02) {
-                    powerUps.add(new PowerUp(3, enemy.getX(), enemy.getY()));
+                    window.addPowerUp(new PowerUp(3, enemy.getX(), enemy.getY()));
                 } else if (random < 0.12) {
-                    powerUps.add(new PowerUp(2, enemy.getX(), enemy.getY()));
+                    window.addPowerUp(new PowerUp(2, enemy.getX(), enemy.getY()));
                 } else if (random < 0.13) {
-                    powerUps.add(new PowerUp(4, enemy.getX(), enemy.getY()));
+                    window.addPowerUp(new PowerUp(4, enemy.getX(), enemy.getY()));
                 }
 
                 window.getPlayer().addScore(enemy.getType() + enemy.getRank());
@@ -193,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
                 enemiesForRemove.add(enemy);
                 enemiesForAdd.addAll(explodedMinions);
 
-                explosions.add(new Explosion(enemy.getX(), enemy.getY(), enemy.getR(), enemy.getR() + 20));
+                window.addExplosion(new Explosion(enemy.getX(), enemy.getY(), enemy.getR(), enemy.getR() + 20));
             }
         }
         enemiesForRemove.forEach(enemy -> window.removeEnemy(enemy));
@@ -204,63 +163,16 @@ public class GamePanel extends JPanel implements Runnable {
             running = false;
         }
 
-        // update window.getPlayer()-power ups collision
-        int px = window.getPlayer().getX();
-        int py = window.getPlayer().getY();
-        int pr = window.getPlayer().getR();
-        for (int i = 0; i < powerUps.size(); i++) {
-            final PowerUp powerUp = powerUps.get(i);
-            final double ex = powerUp.getX();
-            final double ey = powerUp.getY();
-            final double er = powerUp.getR();
-
-            double dx = px - ex;
-            double dy = py - ey;
-            final double dist = Math.sqrt(dx * dx + dy * dy);
-
-            // collected power ups
-            if (dist < pr + er) {
-
-                if (powerUp.getType() == 1) {
-                    window.getPlayer().gainLife();
-                    texts.add(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Extra life"));
-                }
-                if (powerUp.getType() == 2) {
-                    window.getPlayer().increasePower(1);
-                    texts.add(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Power"));
-                }
-                if (powerUp.getType() == 3) {
-                    window.getPlayer().increasePower(2);
-                    texts.add(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Double Power"));
-                }
-                if (powerUp.getType() == 4) {
-                    slowDownTimer = nanoTime();
-                    for (Enemy enemy : enemies) {
-                        enemy.setSlow(true);
-                    }
-                    texts.add(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Slow Down"));
-                }
-
-                powerUps.remove(i);
-                i--;
-            }
-        }
-
         // slowdown time
-        if (slowDownTimer > 0) {
-            slowDownTimerDiff = (nanoTime() - slowDownTimer) / 1000_000;
-            if (slowDownTimerDiff > slowDownLength) {
-                slowDownTimer = 0;
-                for (Enemy enemy : enemies) {
-                    enemy.setSlow(false);
-                }
-            }
-        }
+        window.checkSlowDown();
     }
 
     private void gameRender() {
         List<Bullet> bullets = window.getBullets();
         List<Enemy> enemies = window.getEnemies();
+        List<Explosion> explosions = window.getExplosions();
+        List<PowerUp> powerUps = window.getPowerUps();
+        List<Text> texts = window.getTexts();
 
         // render background
         final Color backgroundColor = new Color(0, 100, 255);
@@ -268,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
         mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
         // render slow background
-        if (slowDownTimer != 0) {
+        if (window.isSlowDown()) {
             mainGraphics.setColor(new Color(255, 255, 255, 64));
             mainGraphics.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         }
@@ -330,10 +242,10 @@ public class GamePanel extends JPanel implements Runnable {
         mainGraphics.drawString("Score: " + window.getPlayer().getScore(), PANEL_WIDTH - 100, 30);
 
         // render slow down meter
-        if (slowDownTimer != 0) {
+        if (window.isSlowDown()) {
             mainGraphics.setColor(Color.WHITE);
             mainGraphics.drawRect(20, 60, 100, 8);
-            mainGraphics.fillRect(20, 60, (int) ((slowDownLength - slowDownTimerDiff) * 100 / slowDownLength), 8);
+            mainGraphics.fillRect(20, 60, (int) ((window.getSlowDownLength() - window.getSlowDownTimerDiff()) * 100 / window.getSlowDownLength()), 8);
         }
     }
 
@@ -411,20 +323,16 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void updateElements(List<? extends Updatable> elements) {
-        for (int i = 0; i < elements.size(); i++) {
-            boolean remove = elements.get(i).update();
+        for (Updatable element : elements) {
+            boolean remove = element.update();
             if (remove) {
-                elements.remove(i);
-                i--;
+                forRemove.add(element);
             }
         }
     }
 
-    private <F extends Contactable, S extends Contactable> void checkCollisions(List<F> firstElements, List<S> secondElements) {
-//        final ArrayList<Contactable> firstElementsForResolve = new ArrayList<>();
-//        final ArrayList<Contactable> secondElementsForResolve = new ArrayList<>();
-        final Map<Contactable, Contactable> mapForResolve = new LinkedHashMap<>();
-        for (final Contactable firstElement : firstElements) {
+    private <F extends Contactable, S extends Contactable> void checkCollisions(F firstElement, List<S> secondElements) {
+        final Map<Contactable, Contactable> mapForResolve = new HashMap<>(1024);
             final double bx = firstElement.getX();
             final double by = firstElement.getY();
             final double br = firstElement.getR();
@@ -440,19 +348,12 @@ public class GamePanel extends JPanel implements Runnable {
 
                 if (dist < br + er) {
                     mapForResolve.put(firstElement, secondElement);
-//                    firstElementsForResolve.add(firstElement);
-//                    secondElementsForResolve.add(secondElement);
-//                    firstElement.resolveContact(secondElement);
-//                    secondElement.resolveContact(firstElement);
                 }
             }
-        }
-        mapForResolve.entrySet().forEach(entry -> {
-            entry.getKey().resolveContact(entry.getValue());
-            entry.getValue().resolveContact(entry.getKey());
+        mapForResolve.forEach((key, value) -> {
+            key.resolveContact(value);
+            value.resolveContact(key);
         });
-//        firstElementsForResolve.stream()
-//                .forEach(element -> element.resolveContact(secondElementsForResolve.));
     }
 
     private void drawElements(List<? extends Drawable> elements) {
