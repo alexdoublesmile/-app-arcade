@@ -32,6 +32,8 @@ public class Player implements Updatable, Drawable{
     private int power;
     private int[] requiredPower = {1, 2, 3, 4, 5};
 
+    private Window window;
+
     public Player() {
         x = PANEL_WIDTH / 2;
         y = PANEL_HEIGHT / 2;
@@ -103,14 +105,14 @@ public class Player implements Updatable, Drawable{
             if (elapsed > firingDelay) {
                 firingTimer = nanoTime(); // timer reset for next bullet
                 if (powerLevel < 2) {
-                    GamePanel.bullets.add(new Bullet(270, x, y));
+                    window.addBullet(new Bullet(270, x, y));
                 } else if (powerLevel < 4) {
-                    GamePanel.bullets.add(new Bullet(270, x + 5, y));
-                    GamePanel.bullets.add(new Bullet(270, x - 5, y));
+                    window.addBullet(new Bullet(270, x + 5, y));
+                    window.addBullet(new Bullet(270, x - 5, y));
                 } else {
-                    GamePanel.bullets.add(new Bullet(270, x, y));
-                    GamePanel.bullets.add(new Bullet(275, x + 5, y));
-                    GamePanel.bullets.add(new Bullet(265, x - 5, y));
+                    window.addBullet(new Bullet(270, x, y));
+                    window.addBullet(new Bullet(275, x + 5, y));
+                    window.addBullet(new Bullet(265, x - 5, y));
                 }
             }
         }
@@ -232,5 +234,9 @@ public class Player implements Updatable, Drawable{
 
     public boolean isDead() {
         return lives <= 0;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
     }
 }

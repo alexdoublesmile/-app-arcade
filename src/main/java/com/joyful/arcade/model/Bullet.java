@@ -1,12 +1,10 @@
 package com.joyful.arcade.model;
-
-
 import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 
-public class Bullet implements Updatable, Drawable{
+public class Bullet implements Updatable, Drawable, Contactable {
     private double x;
     private double y;
     private int r;
@@ -15,6 +13,8 @@ public class Bullet implements Updatable, Drawable{
     private double dx;
     private double dy;
     private Color color1;
+
+    private Window window;
 
     public Bullet(double angle, int x, int y) {
         this.x = x;
@@ -49,15 +49,29 @@ public class Bullet implements Updatable, Drawable{
         g.fillOval((int) x - r, (int) y - r, 2 * r, 2 * r);
     }
 
+    @Override
     public double getX() {
         return x;
     }
 
+    @Override
     public double getY() {
         return y;
     }
 
+    @Override
     public int getR() {
         return r;
+    }
+
+    @Override
+    public void resolveContact(Contactable with) {
+        if (with instanceof Enemy) {
+            window.removeBullet(this);
+        }
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
     }
 }
