@@ -3,6 +3,8 @@ package com.joyful.arcade.process;
 import com.joyful.arcade.exception.WaitFrameException;
 import com.joyful.arcade.listener.KeyboardListener;
 import com.joyful.arcade.model.*;
+import com.joyful.arcade.model.api.Drawable;
+import com.joyful.arcade.model.api.Updatable;
 
 import javax.swing.*;
 import java.awt.*;

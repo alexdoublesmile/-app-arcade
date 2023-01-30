@@ -1,5 +1,8 @@
 package com.joyful.arcade.model;
 
+import com.joyful.arcade.model.api.Drawable;
+import com.joyful.arcade.model.api.Updatable;
+
 import java.awt.*;
 
 import static java.lang.System.nanoTime;

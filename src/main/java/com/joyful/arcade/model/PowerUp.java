@@ -1,10 +1,13 @@
 package com.joyful.arcade.model;
 
+import com.joyful.arcade.model.api.Drawable;
+import com.joyful.arcade.model.api.Updatable;
+
 import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 
-public class PowerUp implements Updatable, Drawable{
+public class PowerUp implements Updatable, Drawable {
     private double x;
     private double y;
     private int r;

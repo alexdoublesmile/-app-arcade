@@ -1,4 +1,4 @@
-package com.joyful.arcade.model;
+package com.joyful.arcade.model.api;
 
 import java.awt.*;
 

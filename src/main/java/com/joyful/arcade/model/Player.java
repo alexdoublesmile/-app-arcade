@@ -1,5 +1,7 @@
 package com.joyful.arcade.model;
 
+import com.joyful.arcade.model.api.Drawable;
+import com.joyful.arcade.model.api.Updatable;
 import com.joyful.arcade.process.GamePanel;
 
 import java.awt.*;
@@ -8,7 +10,7 @@ import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Player implements Updatable, Drawable{
+public class Player implements Updatable, Drawable {
     private int x;
     private int y;
     private int r;
