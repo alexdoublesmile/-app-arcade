@@ -1,14 +1,14 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
-
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Enemy implements Updatable, Drawable{
+public class Enemy implements Updatable, Drawable, Contactable {
     private double x;
     private double y;
     private int r;
@@ -31,6 +31,8 @@ public class Enemy implements Updatable, Drawable{
     private boolean dead;
 
     private boolean slow;
+
+    private Window window;
 
     public Enemy(int type, int rank) {
 
@@ -135,7 +137,8 @@ public class Enemy implements Updatable, Drawable{
         hitTimer = nanoTime();
     }
 
-    public void explode() {
+    public List<Enemy> explode() {
+        final ArrayList<Enemy> enemiesForAdd = new ArrayList<>();
         if (rank > 1) {
             int amount = 0;
             if (type == 1) {
@@ -160,9 +163,14 @@ public class Enemy implements Updatable, Drawable{
                     angle = Math.random() * 360;
                 }
                 enemy.rad = Math.toRadians(angle);
-                GamePanel.enemies.add(enemy);
+                enemiesForAdd.add(enemy);
             }
         }
+        return enemiesForAdd;
+    }
+
+    private void setSlow(boolean slow) {
+        this.slow= slow;
     }
 
     public double getX() {
@@ -256,11 +264,27 @@ public class Enemy implements Updatable, Drawable{
         return hitTimer;
     }
 
-    public boolean isSlow() {
-        return slow;
+    @Override
+    public void resolveContact(Contactable with) {
+        if (with instanceof Bullet) {
+            hit();
+        }
     }
 
-    public void setSlow(boolean slow) {
-        this.slow = slow;
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    public void setNormSpeed() {
+        setSlow(false);
+    }
+
+    public void setSlowSpeed() {
+        setSlow(true);
+    }
+
+    @Override
+    public void remove() {
+        window.removeEnemy(this);
     }
 }

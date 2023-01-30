@@ -4,11 +4,12 @@ import java.awt.*;
 
 import static java.lang.System.nanoTime;
 
-public class Text implements Updatable, Drawable {
+public class Text implements Updatable, Drawable, Contactable {
     private double x;
     private double y;
     private long time;
     private String s;
+    private Window window;
 
     private long start;
 
@@ -42,5 +43,34 @@ public class Text implements Updatable, Drawable {
         final int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
 
         g.drawString(s, (int) (x - (length / 2)), (int) y);
+    }
+
+    @Override
+    public void resolveContact(Contactable with) {
+
+    }
+
+    @Override
+    public double getX() {
+        return 0;
+    }
+
+    @Override
+    public double getY() {
+        return 0;
+    }
+
+    @Override
+    public int getR() {
+        return 0;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    @Override
+    public void remove() {
+        window.removeText(this);
     }
 }

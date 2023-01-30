@@ -2,12 +2,13 @@ package com.joyful.arcade.model;
 
 import java.awt.*;
 
-public class Explosion implements Updatable, Drawable{
+public class Explosion implements Updatable, Drawable {
 
     private double x;
     private double y;
     private int r;
     private int maxRadius;
+    private Window window;
 
     public Explosion(double x, double y, int r, int maxRadius) {
         this.x = x;
@@ -32,5 +33,26 @@ public class Explosion implements Updatable, Drawable{
         g.drawOval((int) (x - r), (int) (y - r), 2 * r, 2 * r);
 
         g.setStroke(new BasicStroke(1));
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    @Override
+    public void remove() {
+        window.removeExplosion(this);
     }
 }

@@ -4,12 +4,14 @@ import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 
-public class PowerUp implements Updatable, Drawable{
+public class PowerUp implements Updatable, Drawable, Contactable {
     private double x;
     private double y;
     private int r;
     private  int type;
     private Color color1;
+
+    private Window window;
 
     // 1 -- +1 life
     // 2 -- +1 power
@@ -74,5 +76,19 @@ public class PowerUp implements Updatable, Drawable{
         g.drawRect((int) (x - r), (int) (y - r), 2 * r, 2 * r);
 
         g.setStroke(new BasicStroke(1));
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    @Override
+    public void resolveContact(Contactable with) {
+        window.removePowerUp(this);
+    }
+
+    @Override
+    public void remove() {
+        window.removePowerUp(this);
     }
 }

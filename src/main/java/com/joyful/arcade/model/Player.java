@@ -1,14 +1,12 @@
 package com.joyful.arcade.model;
 
-import com.joyful.arcade.process.GamePanel;
-
 import java.awt.*;
 
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
 
-public class Player implements Updatable, Drawable{
+public class Player implements Updatable, Drawable, Contactable {
     private int x;
     private int y;
     private int r;
@@ -31,6 +29,8 @@ public class Player implements Updatable, Drawable{
     private int powerLevel;
     private int power;
     private int[] requiredPower = {1, 2, 3, 4, 5};
+
+    private Window window;
 
     public Player() {
         x = PANEL_WIDTH / 2;
@@ -103,14 +103,14 @@ public class Player implements Updatable, Drawable{
             if (elapsed > firingDelay) {
                 firingTimer = nanoTime(); // timer reset for next bullet
                 if (powerLevel < 2) {
-                    GamePanel.bullets.add(new Bullet(270, x, y));
+                    window.addBullet(new Bullet(270, x, y));
                 } else if (powerLevel < 4) {
-                    GamePanel.bullets.add(new Bullet(270, x + 5, y));
-                    GamePanel.bullets.add(new Bullet(270, x - 5, y));
+                    window.addBullet(new Bullet(270, x + 5, y));
+                    window.addBullet(new Bullet(270, x - 5, y));
                 } else {
-                    GamePanel.bullets.add(new Bullet(270, x, y));
-                    GamePanel.bullets.add(new Bullet(275, x + 5, y));
-                    GamePanel.bullets.add(new Bullet(265, x - 5, y));
+                    window.addBullet(new Bullet(270, x, y));
+                    window.addBullet(new Bullet(275, x + 5, y));
+                    window.addBullet(new Bullet(265, x - 5, y));
                 }
             }
         }
@@ -123,6 +123,11 @@ public class Player implements Updatable, Drawable{
             }
         }
         return false;
+    }
+
+    @Override
+    public void remove() {
+        window.removePlayer();
     }
 
     @Override
@@ -190,11 +195,11 @@ public class Player implements Updatable, Drawable{
         this.firing = firing;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -232,5 +237,38 @@ public class Player implements Updatable, Drawable{
 
     public boolean isDead() {
         return lives <= 0;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    @Override
+    public void resolveContact(Contactable with) {
+        if (with instanceof Enemy) {
+            loseLife();
+        }
+        if (with instanceof PowerUp) {
+            PowerUp powerUp = (PowerUp) with;
+
+            switch (powerUp.getType()) {
+                case 1:
+                    gainLife();
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Extra life"));
+                    break;
+                case 2:
+                    increasePower(1);
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Power"));
+                    break;
+                case 3:
+                    increasePower(2);
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Double Power"));
+                    break;
+                case 4:
+                    window.startSlowDown();
+                    window.addText(new Text(window.getPlayer().getX(), window.getPlayer().getY(), 2000, "Slow Down"));
+                    break;
+            }
+        }
     }
 }
