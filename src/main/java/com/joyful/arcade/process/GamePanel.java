@@ -16,6 +16,7 @@ import static com.joyful.arcade.util.TimeHelper.nanosToMillis;
 import static com.joyful.arcade.util.WindowConstants.PANEL_HEIGHT;
 import static com.joyful.arcade.util.WindowConstants.PANEL_WIDTH;
 import static java.lang.System.nanoTime;
+import static java.util.Collections.singletonList;
 
 public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
@@ -23,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Window window = new Window();
     private List<Updatable> forRemove = new ArrayList<>();
+    private Map<Contactable, Contactable> forResolve = new HashMap<>(1024);
+
 
     private BufferedImage mainImage;
     private Graphics2D mainGraphics;
@@ -111,13 +114,13 @@ public class GamePanel extends JPanel implements Runnable {
             createNewEnemies();
         }
 
-        window.getPlayer().update();
-//        enemies.forEach(Enemy::update);
+        updateElements(singletonList(window.getPlayer()));
         updateElements(enemies);
         updateElements(bullets);
         updateElements(powerUps);
         updateElements(explosions);
         updateElements(texts);
+
         forRemove.forEach(Updatable::remove);
         forRemove.clear();
 
@@ -126,6 +129,12 @@ public class GamePanel extends JPanel implements Runnable {
             checkCollisions(window.getPlayer(), enemies);
         }
         checkCollisions(window.getPlayer(), powerUps);
+
+        forResolve.forEach((key, value) -> {
+            key.resolveContact(value);
+            value.resolveContact(key);
+        });
+        forResolve.clear();
 
         // update enemies dead
         final List<Enemy> enemiesForRemove = new ArrayList<>();
@@ -332,28 +341,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private <F extends Contactable, S extends Contactable> void checkCollisions(F firstElement, List<S> secondElements) {
-        final Map<Contactable, Contactable> mapForResolve = new HashMap<>(1024);
-            final double bx = firstElement.getX();
-            final double by = firstElement.getY();
-            final double br = firstElement.getR();
+        final double bx = firstElement.getX();
+        final double by = firstElement.getY();
+        final double br = firstElement.getR();
 
-            for (final Contactable secondElement : secondElements) {
-                final double ex = secondElement.getX();
-                final double ey = secondElement.getY();
-                final double er = secondElement.getR();
+        for (final Contactable secondElement : secondElements) {
+            final double ex = secondElement.getX();
+            final double ey = secondElement.getY();
+            final double er = secondElement.getR();
 
-                final double dx = bx - ex;
-                final double dy = by - ey;
-                final double dist = Math.sqrt(dx * dx + dy * dy);
+            final double dx = bx - ex;
+            final double dy = by - ey;
+            final double dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < br + er) {
-                    mapForResolve.put(firstElement, secondElement);
-                }
+            if (dist < br + er) {
+                forResolve.put(firstElement, secondElement);
             }
-        mapForResolve.forEach((key, value) -> {
-            key.resolveContact(value);
-            value.resolveContact(key);
-        });
+        }
     }
 
     private void drawElements(List<? extends Drawable> elements) {
